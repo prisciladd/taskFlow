@@ -1,0 +1,8 @@
+<aside class="sidebar">
+
+    @for (item of menuItems; track $index) {
+
+        <button (click)="redirectToPage(item.page)">{{item.label}}</button>
+    }
+
+</aside>

@@ -1,15 +1,19 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { Pages } from '../constants/pages.enum';
 import { MenuIten } from '../models/menu-item.model';
+import {MatButtonModule} from '@angular/material/button';
+import { RouterService } from '../core/services/router.service';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [],
+  imports: [MatButtonModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
-  @Output() redirectToPageEmitter = new EventEmitter<Pages>();
+  page!:Pages;
+  /* @Output() redirectToPageEmitter = new EventEmitter<Pages>(); */
+  private readonly routerService = inject(RouterService);
 
   menuItems: MenuIten[] = [
     {
@@ -24,22 +28,42 @@ export class SidebarComponent {
       icon: '',
       page: Pages.TRANSACTIONS,
     },
+    {
+      label: 'Crédito',
+      selected: false,
+      icon: '',
+      page: Pages.CREDIT,
+    },
+    {
+      label: 'Transferências',
+      selected: false,
+      icon: '',
+      page: Pages.TRANSFERS,
+    },
   ];
 
   redirectToPage(page: Pages): void {
-    console.log("sidebar",page);
-    this.redirectToPageEmitter.emit(page);
+    
+    /* this.redirectToPageEmitter.emit(page); */
+
+    console.log("Antes do Service=",this.page);
+    this.routerService.setCurrentPage(page);
+    console.log("Depois do Service=",this.page);
   }
 }
 
 /* 
 
 COMUNICAÇÃO ENTRE COMPONENTES
-  Pai para filho
+  
+  Do .ts para o template
     Interpolação de string {{}}
+
+  Pai para filho
+    @Input
     Property Binding []
   
-  Filho para pai
+  Filho para pai tem que emitir evento
     @Output
     Event Binding () (click)=""
 

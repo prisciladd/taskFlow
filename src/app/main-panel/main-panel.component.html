@@ -1,2 +1,23 @@
+<!-- Exibe os 2 componentes sempre 
+
 <app-dashboard></app-dashboard>
 <app-transactions-list></app-transactions-list>
+
+ -->
+
+ <!-- Exibe os componentes 1 de cada vez com o click no botão  -->
+
+ @switch (page) {
+    @case (pagesEnum.DASHBOARD){
+        <app-dashboard></app-dashboard>
+    }
+    @case (pagesEnum.TRANSACTIONS){
+        <app-transactions-list></app-transactions-list>
+    }
+    @case (pagesEnum.CREDIT){
+        <app-credit></app-credit>
+    }
+    @case (pagesEnum.TRANSFERS){
+        <app-transfers></app-transfers>
+    }
+ }

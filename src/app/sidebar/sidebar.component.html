@@ -2,7 +2,7 @@
 
     @for (item of menuItems; track $index) {
 
-        <button (click)="redirectToPage(item.page)">{{item.label}}</button>
+        <button mat-raised-button (click)="redirectToPage(item.page)">{{item.label}}</button>
     }
 
 </aside>

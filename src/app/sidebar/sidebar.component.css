@@ -1,26 +1,12 @@
 .sidebar{
     height: calc(100vh - 64px);
     padding: 15px;
-    background: purple;
+    background: var(--primary-color);
     color: white;
 }
 
 button {
-  all: unset;
-  width: 85px;
+  width: 105px;
   padding:10px;
   margin: 4px 2px; 
-  cursor: pointer;
-  border: none; 
-  border-radius: 10px;
-  text-align: center; 
-  text-decoration: none; 
-  font-size: 16px; 
-  background-color: #3d0597;
-  transition: background-color 0.3s ease;
-  color: white; 
-}
-
-button:hover {
-  background-color: #f18dec; /* New background color on hover */
 }

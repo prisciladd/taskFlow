@@ -1,59 +1,219 @@
-# TaskFlow
+# Dashboard Bancário
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.19.
+## Objetivo
 
-## Development server
+Desenvolver uma aplicação web do tipo SPA utilizando Angular que simule um dashboard de banco digital, permitindo ao usuário visualizar informações financeiras, realizar operações e interagir com dados consumidos de uma API.
 
-To start a local development server, run:
+O projeto deve aplicar, de forma integrada, os conceitos trabalhados no módulo:
 
-```bash
-ng serve
-```
+- componentização
+- serviços e injeção de dependência
+- comunicação entre componentes
+- data binding
+- consumo de API (HttpClient)
+- estado compartilhado
+- formulários reativos
+- responsividade
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+O foco é organização arquitetural, separação de responsabilidades e boas práticas, não apenas funcionamento visual.
 
-## Code scaffolding
+## Tema do sistema
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Mini Banco Digital – Dashboard Financeiro
 
-```bash
-ng generate component component-name
-```
+A aplicação deve simular um sistema interno de banco digital, onde o usuário pode:
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- visualizar saldo
+- consultar extrato
+- realizar transferências
+- simular crédito/empréstimo
+- interagir com formulários
+- visualizar dados dinâmicos de uma API
 
-```bash
-ng generate --help
-```
+## Restrições técnicas
 
-## Building
+Para este projeto:
 
-To build the project run:
+- Deve ser SPA (uma única página)
+- Não utilizar Angular Router
 
-```bash
-ng build
-```
+A navegação entre telas deve ocorrer via renderização condicional (@if, @switch, etc.)
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Requisitos funcionais (obrigatórios)
 
-## Running unit tests
+1. Layout geral
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+A aplicação deve possuir:
 
-```bash
-ng test
-```
+- Header
+- Menu lateral
+- Área principal de conteúdo
 
-## Running end-to-end tests
+2. Dashboard
 
-For end-to-end (e2e) testing, run:
+Deve exibir:
 
-```bash
-ng e2e
-```
+- saldo atual
+- resumo financeiro
+- indicadores ou cards informativos
+- Dados devem vir de serviço/API.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+3. Extrato de transações
 
-## Additional Resources
+Deve:
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- listar transações dinamicamente
+- exibir data, descrição e valor
+- formatar valores com pipes
+- indicar entrada/saída (cores diferentes)
+- Dados devem vir de API ou mock HTTP.
+
+4. Transferência
+
+Formulário reativo contendo:
+
+- conta destino
+- valor
+- descrição
+
+Validações:
+
+- campos obrigatórios
+- valor maior que zero
+- saldo suficiente
+
+Ao enviar:
+
+- atualizar saldo global
+- registrar nova transação
+
+5. Simulador de crédito/empréstimo
+
+Formulário com:
+
+- valor solicitado
+- número de parcelas
+- taxa de juros
+
+Deve calcular:
+
+- valor da parcela
+- valor total
+
+Lógica deve ficar em service (não no componente).
+
+6. Consumo de API
+
+Deve utilizar:
+
+- HttpClient
+- Observables
+- async pipe (quando possível)
+
+Pode ser:
+
+- json-server
+- backend simples
+
+7. Estado compartilhado
+
+Saldo e transações devem ser:
+
+- compartilhados entre múltiplos componentes
+- atualizados reativamente
+
+Pode usar:
+
+- service com BehaviorSubject
+- Ngrx
+
+8. Responsividade
+
+Interface deve funcionar adequadamente em:
+
+- desktop
+- tablet
+- mobile
+
+Utilizar:
+
+- Flexbox, Bootstrap ou CSS responsivo
+
+## Requisitos arquiteturais (muito importantes)
+
+O projeto será avaliado também pela organização do código.
+
+## Deve apresentar:
+
+- separação entre UI e lógica
+- uso de services
+- baixo acoplamento
+- componentes coesos
+- ausência de lógica de negócio no template
+- organização de pastas (core/shared/features ou similar)
+
+Evitar:
+
+- código duplicado
+- variáveis globais
+- chamadas HTTP diretamente no template
+- componentes “gigantes” fazendo tudo
+
+## Funcionalidades extras (bônus)
+
+Opcionalmente, podem ser implementados:
+
+- tema dark/light
+- gráficos
+- filtros no extrato
+- exportação CSV
+- cache localStorage
+- animações
+- melhorias visuais
+- testes unitários
+
+## Modalidade
+
+Pode ser desenvolvido:
+
+- individualmente
+- em grupos de até 4 alunos
+
+Todos devem compreender o código entregue.
+
+## Entrega
+
+Deve conter:
+
+- repositório Git enviado no LMS
+- instruções para rodar (README)
+- testes implementados
+- aplicação funcionando
+
+## Critérios de avaliação
+
+Critério Peso
+Arquitetura e organização do código 25%
+Uso correto de Angular (components/services/DI) 25%
+Funcionalidades implementadas 20%
+Formulários e validações 10%
+Consumo de API e estado 10%
+Responsividade/UI 5%
+Testes 5%
+
+## Competências avaliadas
+
+Ao final, espera-se que o estudante seja capaz de:
+
+- estruturar uma SPA Angular
+- componentizar corretamente
+- consumir APIs
+- gerenciar estado
+- criar formulários complexos
+- aplicar boas práticas de arquitetura
+
+## Observação final
+
+Este projeto não deve ser apenas copiado de tutoriais. O objetivo é aplicar os conceitos aprendidos e tomar decisões arquiteturais conscientes.
+
+Mais importante que "funcionar" é "estar bem organizado".

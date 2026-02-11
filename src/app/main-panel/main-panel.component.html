@@ -6,18 +6,20 @@
  -->
 
  <!-- Exibe os componentes 1 de cada vez com o click no botão  -->
+<div class="content">
 
- @switch (page) {
-    @case (pagesEnum.DASHBOARD){
-        <app-dashboard></app-dashboard>
+    @switch (pageActive) {
+        @case (pagesEnum.DASHBOARD){
+            <app-dashboard></app-dashboard>
+        }
+        @case (pagesEnum.TRANSACTIONS){
+            <app-transactions-list></app-transactions-list>
+        }
+        @case (pagesEnum.CREDIT){
+            <app-credit></app-credit>
+        }
+        @case (pagesEnum.TRANSFERS){
+            <app-transfers></app-transfers>
     }
-    @case (pagesEnum.TRANSACTIONS){
-        <app-transactions-list></app-transactions-list>
-    }
-    @case (pagesEnum.CREDIT){
-        <app-credit></app-credit>
-    }
-    @case (pagesEnum.TRANSFERS){
-        <app-transfers></app-transfers>
-    }
- }
+}
+</div>

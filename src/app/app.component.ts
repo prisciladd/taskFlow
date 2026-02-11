@@ -25,12 +25,10 @@ export class AppComponent implements OnInit{
   } */
 
 /* Com Observable */
-    count = 0
+    
 
     obs = new Observable((observer) => {
       
-      observer.next(this.count);
-      this.count++
     })
 
     ngOnInit(){

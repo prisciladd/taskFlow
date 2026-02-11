@@ -6,6 +6,7 @@ import { CreditComponent } from "./pages/credit/credit.component";
 import { TransfersComponent } from "./pages/transfers/transfers.component";
 import { RouterService } from '../core/services/router.service';
 
+
 @Component({
   selector: 'app-main-panel',
   imports: [DashboardComponent, TransactionsListComponent, CreditComponent, TransfersComponent],
@@ -17,12 +18,14 @@ export class MainPanelComponent implements OnInit{
   private readonly routerService = inject(RouterService); // em vez do construtor
   page!:Pages;
   pagesEnum=Pages;
+  pageActive!: Pages;
   
   /* constructor(private readonly routerService: RouterService){} */
   
-  ngOnInit(): void {
-    console.log("Antes do Service=",this.page);
-    this.page = this.routerService.getCurrentPage();
-    console.log("Depois do Service=",this.page);
+  ngOnInit() {
+    this.routerService.pageOn$.subscribe(page => {
+      this.pageActive = page;
+    });
   }
+  
 }

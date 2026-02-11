@@ -1,8 +1,9 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { Pages } from '../constants/pages.enum';
 import { MenuIten } from '../models/menu-item.model';
 import {MatButtonModule} from '@angular/material/button';
 import { RouterService } from '../core/services/router.service';
+
 
 @Component({
   selector: 'app-sidebar',
@@ -10,9 +11,11 @@ import { RouterService } from '../core/services/router.service';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
-export class SidebarComponent {
-  page!:Pages;
+export class SidebarComponent{
+
+  /* page!:Pages; */
   /* @Output() redirectToPageEmitter = new EventEmitter<Pages>(); */
+
   private readonly routerService = inject(RouterService);
 
   menuItems: MenuIten[] = [
@@ -41,15 +44,15 @@ export class SidebarComponent {
       page: Pages.TRANSFERS,
     },
   ];
-
-  redirectToPage(page: Pages): void {
+  
+  redirectToPage(page: Pages) {
     
-    /* this.redirectToPageEmitter.emit(page); */
-
-    console.log("Antes do Service=",this.page);
     this.routerService.setCurrentPage(page);
-    console.log("Depois do Service=",this.page);
-  }
+    
+    /* 
+    Usado com @Input @Output
+    this.redirectToPageEmitter.emit(page);
+    */
 }
 
 /* 
@@ -81,3 +84,4 @@ COMUNICAÇÃO ENTRE COMPONENTES
     CreditSimulatorComponent
     ProfileComponent
 */
+}

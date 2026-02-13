@@ -7,7 +7,8 @@
 
  <!-- Exibe os componentes 1 de cada vez com o click no botão  -->
 <div class="content">
-
+<!-- 
+    @switch (pageActive | async ) {  Asyncpipe para desinscrever sem precisar de takeUntilDestroyed e subscribe. Se precisar manipular erro use subscribe--> 
     @switch (pageActive) {
         @case (pagesEnum.DASHBOARD){
             <app-dashboard></app-dashboard>

@@ -1,0 +1,25 @@
+h3{
+    color: var(--bg-primary-color)
+}
+
+.cards-container-full{
+    padding-top: 15px;
+}
+
+.cards-full{
+    color: var(--primary-color);
+    background-color: var(--bg-primary-color);    
+    height:150px;
+}
+
+.cards-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding-top: 15px;
+}
+
+.cards{
+    width: 95%;
+    height:150px;
+    
+}

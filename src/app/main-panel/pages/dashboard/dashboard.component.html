@@ -1,1 +1,37 @@
-<p>dashboard works!</p>
+
+<!-- {{address?.cep}}
+{{address?.complemento}}
+{{address?.estado}}
+{{address?.localidade}}
+{{address?.logradouro}}
+{{address?.regiao}}
+{{address?.uf}} -->
+<h3>
+    Olá, {{acount?.name}} 
+</h3>
+
+<div class="cards-container-full">
+    <mat-card class="cards-full" appearance="raised">
+        <mat-card-content>
+            <p>Saldo disponível</p> 
+            {{acount?.balance}}
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<div class="cards-container">
+    <mat-card class="cards" appearance="outlined">
+        <mat-card-content>
+        
+            {{acount?.balance}}
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="cards" appearance="outlined">
+        <mat-card-content>{{acount?.balance}}</mat-card-content>
+    </mat-card>
+
+    <mat-card class="cards" appearance="outlined">
+        <mat-card-content>{{acount?.balance}}</mat-card-content>
+    </mat-card>
+</div>

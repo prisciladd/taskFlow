@@ -5,5 +5,17 @@
     color: var(--primary-color);
     justify-content: space-between;
     align-items: center;
-    padding: 0 24px;
+    padding: 0 24px 0 0;
+}
+
+.d-flex{
+    border: 15px;
+    width: 100px;
+    justify-content:space-between ;
+}
+
+.logo{
+    width: 74px;
+    height: 56px;
+    
 }

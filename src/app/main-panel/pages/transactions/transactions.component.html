@@ -1,0 +1,7 @@
+<button (click)="redirectToCreate()">Adicionar transação</button>
+
+@if (showCreateForm){
+    <app-create-transactions></app-create-transactions>
+} @else {
+    <app-list-transactions></app-list-transactions>
+}

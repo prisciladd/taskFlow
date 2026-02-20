@@ -15,12 +15,17 @@
       <p>
         {{ acount?.balance | currency : "BRL" }}
       </p>
+      <div class="cards-container">
+        <p>Agência 0001</p>
+        <p>Conta 123456-7</p>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>
 
 <div class="cards-container">
   <mat-card class="cards" appearance="outlined">
+<<<<<<< HEAD
     
       
       <mat-card-content>Total de receitas: </mat-card-content>
@@ -30,9 +35,16 @@
 
   <mat-card class="cards" appearance="outlined">
     <mat-card-content>Total de despesas:</mat-card-content>
+=======
+      <mat-card-content> Receitas </mat-card-content>
   </mat-card>
 
   <mat-card class="cards" appearance="outlined">
-    <mat-card-content>{{ acount?.balance }}</mat-card-content>
+    <mat-card-content> Despesas </mat-card-content>
+>>>>>>> 686233cd52c89915a028f795609a55a5ac74bf92
+  </mat-card>
+
+  <mat-card class="cards" appearance="outlined">
+    <mat-card-content> Saldo do período </mat-card-content>
   </mat-card>
 </div>

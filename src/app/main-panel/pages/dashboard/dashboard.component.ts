@@ -1,11 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { CurrencyPipe } from '@angular/common';
 import { MatCardModule, MatCard, MatCardContent } from '@angular/material/card';
+=======
+import { CurrencyPipe, NgForOf } from '@angular/common';
+import { MatCard, MatCardContent } from '@angular/material/card';
+>>>>>>> 686233cd52c89915a028f795609a55a5ac74bf92
 import { DashboardService } from './services/dashboard.service';
 import { Address } from './models/address.model';
 import { Account } from './models/account.model';
-import { Transaction } from './models/transaction.model';
-import { first } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +21,6 @@ export class DashboardComponent implements OnInit{
 
  /*  address?: Address */
   acount?: Account;
-  transactions?: Transaction[];
 
   ngOnInit(): void {
     /* this.dashbordService.getAddressByZipCode().subscribe({
@@ -36,18 +38,15 @@ export class DashboardComponent implements OnInit{
     error: (err) => {
       console.log("Erro ao buscar dados da conta na api",err);
       
-    }
-   });
-   this.dashbordService.getTransaction().subscribe({
-    next: (res) => {
-      this.transactions = res;
-      
-    },
-    error: (err) => {
-      console.log("Erro ao buscar dados das transações na api",err);
     },
     
-   })
+   });
+   
+   
   }
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 686233cd52c89915a028f795609a55a5ac74bf92
 }

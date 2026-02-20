@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CurrencyPipe, NgForOf } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { MatCardModule, MatCard, MatCardContent } from '@angular/material/card';
 import { DashboardService } from './services/dashboard.service';
 import { Address } from './models/address.model';
@@ -9,7 +9,7 @@ import { first } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MatCard, MatCardContent, CurrencyPipe, NgForOf],
+  imports: [MatCard, MatCardContent, CurrencyPipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -49,15 +49,5 @@ export class DashboardComponent implements OnInit{
     
    })
   }
-  
-  soma: number = 0
-  somar() {
-    
-    for(const transaction of this.transactions){
-      this.soma += transaction.amount
-    }
-    
-    return this.soma
 
-  }
 }

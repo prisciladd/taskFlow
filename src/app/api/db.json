@@ -16,14 +16,14 @@
       "id": "2",
       "date": "2026-02-02T14:32:00",
       "description": "Supermercado",
-      "amount": -230.5,
+      "amount": 230.5,
       "type": "expense"
     },
     {
       "id": "3",
       "date": "2026-02-03T20:10:00",
       "description": "Netflix",
-      "amount": -39.9,
+      "amount": 39.9,
       "type": "expense"
     },
     {
@@ -45,6 +45,48 @@
       "date": "2026-02-19",
       "description": "comida",
       "amount": 38.5,
+      "type": "expense"
+    },
+    {
+      "id": "2f11",
+      "date": "2026-02-24",
+      "description": "teste ",
+      "amount": 10,
+      "type": "expense"
+    },
+    {
+      "id": "eb10",
+      "date": "2026-02-25",
+      "description": "teste soma",
+      "amount": 10,
+      "type": "income"
+    },
+    {
+      "id": "f318",
+      "date": "2026-02-25",
+      "description": "teste subtração",
+      "amount": 10,
+      "type": "expense"
+    },
+    {
+      "id": "8be2",
+      "date": "2026-02-25",
+      "description": "teste soma 2",
+      "amount": 10,
+      "type": "expense"
+    },
+    {
+      "id": "1400",
+      "date": "2026-02-25",
+      "description": "final teste r",
+      "amount": 50,
+      "type": "income"
+    },
+    {
+      "id": "e22e",
+      "date": "2026-02-25",
+      "description": "pão",
+      "amount": 2.1,
       "type": "expense"
     }
   ],

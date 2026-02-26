@@ -25,6 +25,7 @@
 
 <div class="cards-container">
   <mat-card class="cards" appearance="outlined">
+<<<<<<< HEAD
       <mat-card-content> Receitas </mat-card-content>
   </mat-card>
 
@@ -34,5 +35,22 @@
 
   <mat-card class="cards" appearance="outlined">
     <mat-card-content> Saldo do período </mat-card-content>
+=======
+      <mat-card-content> Receitas 
+        <p>{{this.totalReceita | currency }}</p>
+      </mat-card-content>
+  </mat-card>
+
+  <mat-card class="cards" appearance="outlined">
+    <mat-card-content> Despesas 
+      <p>{{this.totalDespesa | currency }}</p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="cards" appearance="outlined">
+    <mat-card-content> Saldo do período 
+      <p>{{this.saldoPeriodo | currency }}</p>
+    </mat-card-content>
+>>>>>>> 993570b4387614b5abaf062a645b2fe6d91503aa
   </mat-card>
 </div>

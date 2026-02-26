@@ -7,7 +7,6 @@ import { TransfersComponent } from './pages/transfers/transfers.component';
 import { RouterService } from '../core/services/router.service';
 import { first } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ListTransactionsComponent } from "./pages/transactions/component/list-transactions/list-transactions.component";
 
 @Component({
   selector: 'app-main-panel',
@@ -15,8 +14,7 @@ import { ListTransactionsComponent } from "./pages/transactions/component/list-t
     DashboardComponent,
     TransactionsComponent,
     CreditComponent,
-    TransfersComponent,
-    ListTransactionsComponent
+    TransfersComponent
 ],
   templateUrl: './main-panel.component.html',
   styleUrl: './main-panel.component.css',

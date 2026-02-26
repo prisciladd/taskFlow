@@ -1,11 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
-<<<<<<< HEAD
 import { CurrencyPipe } from '@angular/common';
 import { MatCardModule, MatCard, MatCardContent } from '@angular/material/card';
-=======
-import { CurrencyPipe, NgForOf } from '@angular/common';
-import { MatCard, MatCardContent } from '@angular/material/card';
->>>>>>> 686233cd52c89915a028f795609a55a5ac74bf92
 import { DashboardService } from './services/dashboard.service';
 import { Address } from './models/address.model';
 import { Account } from './models/account.model';
@@ -44,9 +39,4 @@ export class DashboardComponent implements OnInit{
    
    
   }
-<<<<<<< HEAD
-
-=======
-  
->>>>>>> 686233cd52c89915a028f795609a55a5ac74bf92
 }

@@ -1,10 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-<<<<<<< HEAD
-import { MatCardModule, MatCard, MatCardContent } from '@angular/material/card';
-=======
 import { MatCard, MatCardContent } from '@angular/material/card';
->>>>>>> 993570b4387614b5abaf062a645b2fe6d91503aa
 import { DashboardService } from './services/dashboard.service';
 /* import { Address } from './models/address.model'; */
 import { Account } from './models/account.model';
@@ -48,10 +44,6 @@ export class DashboardComponent implements OnInit{
     },
     
    });
-<<<<<<< HEAD
-   
-   
-=======
 
    this.transactionService.getTransaction().subscribe({
     next: (res) =>{
@@ -72,6 +64,5 @@ export class DashboardComponent implements OnInit{
       console.log("Erro ao buscar dados da transação na api",err);
     }
    })
->>>>>>> 993570b4387614b5abaf062a645b2fe6d91503aa
   }
 }

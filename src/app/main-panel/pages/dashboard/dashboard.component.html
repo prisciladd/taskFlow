@@ -26,19 +26,19 @@
 <div class="cards-container">
   <mat-card class="cards" appearance="outlined">
       <mat-card-content> Receitas 
-        <p>{{this.totalReceita | currency }}</p>
+        <p>{{this.totalReceita | currency : "BRL" }}</p>
       </mat-card-content>
   </mat-card>
 
   <mat-card class="cards" appearance="outlined">
     <mat-card-content> Despesas 
-      <p>{{this.totalDespesa | currency }}</p>
+      <p>{{this.totalDespesa | currency : "BRL" }}</p>
     </mat-card-content>
   </mat-card>
 
   <mat-card class="cards" appearance="outlined">
     <mat-card-content> Saldo do período 
-      <p>{{this.saldoPeriodo | currency }}</p>
+      <p>{{this.saldoPeriodo | currency : "BRL" }}</p>
     </mat-card-content>
   </mat-card>
 </div>

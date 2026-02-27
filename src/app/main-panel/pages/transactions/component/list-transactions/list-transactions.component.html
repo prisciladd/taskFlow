@@ -1,37 +1,26 @@
 <h3>Transações</h3>
 
-<div class="example-container mat-elevation-z8">
-    <mat-table #table [dataSource]="dataSource">
-  
-      <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
-  
-      <!-- Position Column -->
-      <ng-container matColumnDef="date">
-        <mat-header-cell *matHeaderCellDef> Data </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.date}} </mat-cell>
-      </ng-container>
-  
-      <!-- Name Column -->
-      <ng-container matColumnDef="description">
-        <mat-header-cell *matHeaderCellDef> Descrição </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
-      </ng-container>
-  
-      <!-- Weight Column -->
-      <ng-container matColumnDef="amount">
-        <mat-header-cell *matHeaderCellDef> Valor </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
-      </ng-container>
-  
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="type">
-        <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
-      </ng-container>
-  
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-  </div>
-  
+<div class="p-3">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Data</th>
+        <th scope="col">Descrição</th>
+        <th scope="col">Valor</th>
+        <th scope="col">Tipo</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of transactions; track $index) {
+        <tr>
+          <td>{{item.date | date : 'dd/MM/YYYY'}}</td>
+          <td>{{item.description}}</td>
+          <td [class]="item.amount | negativeValues">
+            {{item.amount | currency}}
+          </td>
+          <td>{{item.type}}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

@@ -88,6 +88,13 @@
       "description": "pão",
       "amount": 2.1,
       "type": "expense"
+    },
+    {
+      "id": "922e",
+      "date": "2026-27-2",
+      "description": "Comida",
+      "amount": 10025,
+      "type": "income"
     }
   ],
   "transfers": [],

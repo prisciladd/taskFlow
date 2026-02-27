@@ -26,4 +26,4 @@ export class RouterService {
   } 
 }
 /* 
-Fonte: https://dev.to/artem_turlenko/using-rxjs-subjects-and-behaviorsubjects-in-angular-45ag */
+Fonte: Behavior Subject https://dev.to/artem_turlenko/using-rxjs-subjects-and-behaviorsubjects-in-angular-45ag */

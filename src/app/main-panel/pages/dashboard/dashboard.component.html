@@ -5,7 +5,7 @@
     <mat-card-content>
       <p>Saldo disponível</p>
       <p>
-        {{ acount?.balance | currency : "BRL" }}
+        {{ acount?.balance | currency}}
       </p>
       <div class="cards-container">
         <p>Agência 0001</p>
@@ -18,19 +18,19 @@
 <div class="cards-container">
   <mat-card class="cards" appearance="outlined">
       <mat-card-content> Receitas 
-        <p>{{this.totalReceita | currency : "BRL" }}</p>
+        <p>{{this.totalReceita | currency}}</p>
       </mat-card-content>
   </mat-card>
 
   <mat-card class="cards" appearance="outlined">
     <mat-card-content> Despesas 
-      <p>{{this.totalDespesa | currency : "BRL" }}</p>
+      <p>{{this.totalDespesa | currency}}</p>
     </mat-card-content>
   </mat-card>
 
   <mat-card class="cards" appearance="outlined">
     <mat-card-content> Saldo do período 
-      <p>{{this.saldoPeriodo | currency : "BRL" }}</p>
+      <p>{{this.saldoPeriodo | currency}}</p>
     </mat-card-content>
   </mat-card>
 </div>

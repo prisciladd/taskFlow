@@ -1,4 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <!--  Bootstrap
   <div class="form-group">
     <label for="date-field">Date</label>
     <input type="date" 
@@ -6,19 +7,54 @@
     id="date-field"
     formControlName="date">
   </div>
+
+
   <div class="form-group">
     <label for="description-field">Descrição</label>
     <input type="text" 
     class="form-control" 
     id="description-field"
-    formControlName="description">  <!-- formControlName = Associa campo do html com campo do ts -->
-  </div>
+    formControlName="description">  formControlName = Associa campo do html com campo do ts 
+  </div> -->
+<!--   <div class="form-group"> -->
+
+  <!-- Angular Material -->
+  <mat-form-field appearance="outline" class="w-100 mb-3">
+    <mat-label>Escolha uma data</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="description">
+    <mat-hint>DD/MM/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label >Descrição</mat-label>
+      <input
+      matInput
+      placeholder="Descreva a transação"
+      formControlName="description"
+      />
+      <mat-hint>A descrição deve ser bem descrita</mat-hint>
+      <mat-error>A descrição precisa ser preenchida</mat-error>
+      @if(form.get('description')?.hasError &&
+          form.get('description')?.errors?.['minlength']
+      )
+      {
+
+        <mat-error>A descrição precisa ter no mínimo 5 caracteres</mat-error>
+      }
+    </mat-form-field>
+<!--   </div> -->
   <div class="form-group">
     <label for="amount-field">Valor</label>
     <input type="number" 
     class="form-control" 
     id="amount-field"
-    formControlName="amount">
+    formControlName="amount"
+    mask="separator.2"
+    thousandSeparator="."
+    decimalMarkers=","
+    prefix="R$ ">
   </div>
   <div class="form-group">
     <label for="type">Tipo de transação</label>
@@ -31,5 +67,5 @@
         <option [value]="transactionTypesEnum.EXPENSE">Saída</option>
     </select>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Submit</button>
 </form>

@@ -2,10 +2,10 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { DashboardService } from './services/dashboard.service';
-/* import { Address } from './models/address.model'; */
 import { Account } from './models/account.model';
 import { TransactionsService } from '../transactions/services/transactions.service';
 import { Transaction } from './models/transaction.model';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,20 +20,16 @@ export class DashboardComponent implements OnInit{
   totalDespesa: number = 0;
   saldoPeriodo: number = 0;
 
- /*  address?: Address */
   acount?: Account;
   transaction?:Transaction[];
 
   ngOnInit(): void {
-    /* this.dashbordService.getAddressByZipCode().subscribe({
-      next: (res) =>{
-        this.address = res;
-      },
-      error: (err) =>{
-        console.log(err)
-      }
-    }) */
-   this.dashbordService.getAccount().subscribe({
+    this.getAccount();
+    this.getTransactions();
+  }
+
+  getAccount():void{
+       this.dashbordService.getAccount().pipe(first()).subscribe({
     next: (res) => {
         this.acount = res;
         
@@ -44,8 +40,10 @@ export class DashboardComponent implements OnInit{
     },
     
    });
+  };
 
-   this.transactionService.getTransaction().subscribe({
+  getTransactions():void{
+     this.transactionService.getTransaction().pipe(first()).subscribe({
     next: (res) =>{
       this.transaction = res;
 
@@ -64,5 +62,6 @@ export class DashboardComponent implements OnInit{
       console.log("Erro ao buscar dados da transação na api",err);
     }
    })
-  }
+  };
+
 }

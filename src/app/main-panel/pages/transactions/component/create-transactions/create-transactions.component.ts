@@ -1,27 +1,33 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { TransactionTypes } from '../../../../../constants/transactions-types.enum';
 import { TransactionsService } from '../../services/transactions.service';
+import { MatInputModule } from '@angular/material/input';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-create-transactions',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,MatInputModule,MatDatepickerModule,MatFormFieldModule],
   templateUrl: './create-transactions.component.html',
-  styleUrl: './create-transactions.component.css'
+  styleUrl: './create-transactions.component.css',
+  providers: [provideNgxMask()]
 })
 export class CreateTransactionsComponent implements OnInit {
   form!: FormGroup;
-  transactionTypesEnum = TransactionTypes
-  private readonly transactionService = inject(TransactionsService)
+  transactionTypesEnum = TransactionTypes;
+  today = new Date ().toISOString().substring(0,10);
+  private readonly transactionService = inject(TransactionsService);
 
   ngOnInit(): void {
 
     this.form = new FormGroup({
 
-      date: new FormControl(),
-      description: new FormControl(),
-      amount: new FormControl(),
-      type: new FormControl(),
+      date: new FormControl(this.today,/* [Validators.required, this.dateRangeValidator(new Date(2026,0,1), new Date())] */),
+      description: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]),
+      amount: new FormControl(null, Validators.required),
+      type: new FormControl(null, Validators.required),
 
     });
 
@@ -43,5 +49,27 @@ export class CreateTransactionsComponent implements OnInit {
       
   }
 
-  
+  dateRangeValidator(minDate: Date, maxDate:Date): ValidatorFn {
+    return (control:AbstractControl):ValidationErrors | null =>{
+      
+      if (!control.value) return null;
+
+      const value = new Date (control.value);
+
+      if (isNaN(value.getTime())){
+        return {invalidDate:true};
+      }
+      
+      if ( value <= minDate || value >= maxDate){
+        return {dateOutOfRange:{
+          min: minDate,
+          max: maxDate,
+          actual: value,
+        }}
+      }
+
+      return null;
+    }
+
+  }
 }

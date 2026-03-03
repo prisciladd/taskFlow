@@ -1,4 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    
   <!--  Bootstrap
   <div class="form-group">
     <label for="date-field">Date</label>
@@ -8,7 +9,7 @@
     formControlName="date">
   </div>
 
-
+  
   <div class="form-group">
     <label for="description-field">Descrição</label>
     <input type="text" 
@@ -26,26 +27,25 @@
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
-
-    <mat-form-field appearance="outline" class="w-100 mb-3">
-      <mat-label >Descrição</mat-label>
-      <input
-      matInput
-      placeholder="Descreva a transação"
-      formControlName="description"
-      />
-      <mat-hint>A descrição deve ser bem descrita</mat-hint>
-      <mat-error>A descrição precisa ser preenchida</mat-error>
-      @if(form.get('description')?.hasError &&
-          form.get('description')?.errors?.['minlength']
+  
+  <mat-form-field appearance="outline" class="w-100 mb-3">
+    <mat-label >Descrição</mat-label>
+    <input
+    matInput
+    placeholder="Descreva a transação"
+    formControlName="description"
+    />
+    <mat-hint>A descrição deve ser bem descrita</mat-hint>
+    <mat-error>A descrição precisa ser preenchida</mat-error>
+    @if(form.get('description')?.hasError &&
+        form.get('description')?.errors?.['minlength']
       )
-      {
-
+      {  
         <mat-error>A descrição precisa ter no mínimo 5 caracteres</mat-error>
       }
-    </mat-form-field>
-<!--   </div> -->
-  <div class="form-group">
+  </mat-form-field>
+  <!--   </div> -->
+  <!-- <div class="form-group">
     <label for="amount-field">Valor</label>
     <input type="number" 
     class="form-control" 
@@ -55,18 +55,39 @@
     thousandSeparator="."
     decimalMarkers=","
     prefix="R$ ">
-  </div>
-  <div class="form-group">
+  </div> -->
+  <mat-form-field appearance="outline" class="w-100 mb-3">
+    <mat-label >Valor</mat-label>
+    <input
+    matInput
+    placeholder="Informe o valor da transação"
+    formControlName="amount"
+    mask="separator.2"
+    thousandSeparator="."
+    decimalMarkers=","
+    prefix="R$ "
+    />
+  </mat-form-field>
+ <!--  <div class="form-group">
     <label for="type">Tipo de transação</label>
     <select 
     class="form-control" 
     id="type"
     formControlName="type">
-        <option [value]="null" selected>Selecione</option>
-        <option [value]="transactionTypesEnum.INCOME">Entrada</option>
-        <option [value]="transactionTypesEnum.EXPENSE">Saída</option>
+    <option [value]="null" selected>Selecione</option>
+    <option [value]="transactionTypesEnum.INCOME">Entrada</option>
+    <option [value]="transactionTypesEnum.EXPENSE">Saída</option>
     </select>
-  </div>
+  </div> -->
+  <mat-form-field class="w-100 mb-3">
+    <mat-label>Tipo de transação</mat-label>
+    <mat-select formControlName="type">
+      
+        <mat-option [value]="transactionTypesEnum.INCOME">Entrada</mat-option>
+        <mat-option [value]="transactionTypesEnum.EXPENSE">Saída</mat-option>
+      
+    </mat-select>
+  </mat-form-field>
+  
   <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Submit</button>
 </form>
-

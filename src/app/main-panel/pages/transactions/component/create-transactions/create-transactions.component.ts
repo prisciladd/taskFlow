@@ -8,10 +8,11 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { provideNgxMask } from 'ngx-mask';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { first } from 'rxjs';
+import {MatSelectModule} from '@angular/material/select';
 
 @Component({
   selector: 'app-create-transactions',
-  imports: [ReactiveFormsModule,MatInputModule,MatDatepickerModule,MatFormFieldModule],
+  imports: [ReactiveFormsModule,MatInputModule,MatDatepickerModule,MatFormFieldModule,MatSelectModule],
   templateUrl: './create-transactions.component.html',
   styleUrl: './create-transactions.component.css',
   providers: [provideNgxMask(),provideNativeDateAdapter()]

@@ -1,5 +1,3 @@
-<h3>Transações</h3>
-
 <div class="p-3">
   <table class="table table-striped">
     <thead>
@@ -15,7 +13,7 @@
         <tr>
           <td>{{item.date | date : 'dd/MM/YYYY'}}</td>
           <td>{{item.description}}</td>
-          <td [class]="item.amount | negativeValues">
+          <td [class]="item.type| negativeValues">
             {{item.amount | currency}}
           </td>
           <td>{{item.type}}</td>

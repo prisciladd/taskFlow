@@ -1,7 +1,10 @@
+<div class="pb-3 d-flex justify-content-between">
+    <h3>Transações</h3>
+    <button matButton (click)="redirectToCreate()">Adicionar transação + </button>
+</div>
+
 @if (showCreateForm){
     <app-create-transactions></app-create-transactions>
 } @else {
     <app-list-transactions></app-list-transactions>
 }
-
-<button (click)="redirectToCreate()">Adicionar transação</button>

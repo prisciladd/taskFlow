@@ -9,17 +9,17 @@ h3{
 .cards-full{
     color: var(--primary-color);
     background-color: var(--bg-primary-color);    
-    height:150px;
+
 }
 
 .cards-container{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    padding-top: 15px;
+    padding-top: 5px;
+
 }
 
 .cards{
-    width: 95%;
-    height:150px;
+    margin:15px;
     
 }

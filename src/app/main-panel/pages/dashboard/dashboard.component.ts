@@ -43,7 +43,7 @@ export class DashboardComponent implements OnInit{
   };
 
   getTransactions():void{
-     this.transactionService.getTransaction().pipe(first()).subscribe({
+     this.transactionService.readTransaction().pipe(first()).subscribe({
     next: (res) =>{
       this.transaction = res;
 

@@ -1,10 +1,28 @@
 <div class="pb-3 d-flex justify-content-between">
     <h3>Transações</h3>
-    <button matButton (click)="redirectToCreate()">Adicionar transação + </button>
+    
 </div>
-
-@if (showCreateForm){
-    <app-create-transactions></app-create-transactions>
-} @else {
+    
+    <!-- @if (showCreateForm){
+        <app-create-transactions></app-create-transactions>
+        } @else {
     <app-list-transactions></app-list-transactions>
-}
+    } -->
+
+    <!-- @if ((page$ | async) === pagesEnum.CREATE) {
+    <app-create-transactions></app-create-transactions>
+    } @else {
+        <app-list-transactions></app-list-transactions>
+        } -->
+        
+        @switch( page$ | async){
+            @case(pagesEnum.CREATE){
+                <app-create-transactions ></app-create-transactions>
+            }
+            @case(pagesEnum.LIST){
+                <app-list-transactions (editEmitter)="handleEditTransaction($event)"></app-list-transactions>
+            }
+            @case(pagesEnum.EDIT){
+                <app-create-transactions [id]="id"></app-create-transactions>
+            }
+        }

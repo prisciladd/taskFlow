@@ -1,5 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    
+
   <!--  Bootstrap
   <div class="form-group">
     <label for="date-field">Date</label>
@@ -89,5 +89,9 @@
     </mat-select>
   </mat-form-field>
   
-  <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Submit</button>
+  <div class="d-flex justify-content-between">
+
+    <button type="button" class="btn btn-outline-primary" (click)="redirectToList()"> Voltar </button>
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Submit</button>
+  </div>
 </form>

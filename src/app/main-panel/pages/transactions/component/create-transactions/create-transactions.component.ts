@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { TransactionTypes } from '../../../../../constants/transactions-types.enum';
 import { TransactionsService } from '../../services/transactions.service';
@@ -9,6 +9,9 @@ import { provideNgxMask } from 'ngx-mask';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { first } from 'rxjs';
 import {MatSelectModule} from '@angular/material/select';
+import { Transaction } from '../../../dashboard/models/transaction.model';
+import { RouterService } from '../../../../../core/services/router.service';
+import { TransactionsPagesEnum } from '../../constants/transaction-pages.enum';
 
 @Component({
   selector: 'app-create-transactions',
@@ -24,9 +27,19 @@ export class CreateTransactionsComponent implements OnInit {
   todayLocale = new Date().toLocaleDateString().split('/');
   todayISO = `${this.todayLocale[2]}-${this.todayLocale[1]}-${this.todayLocale[0]}`;
   private readonly transactionService = inject(TransactionsService);
+  private readonly routerService = inject(RouterService);
+
+  @Input()id?: string;
 
   ngOnInit(): void {
+    this.buildForm();
 
+    if(this.id){
+      this.getTransactionById();
+    }
+  }
+
+  buildForm():void{
     this.form = new FormGroup({
 
       date: new FormControl(this.todayISO/* [Validators.required, this.dateRangeValidator(new Date(2026,0,1), new Date())] */),
@@ -35,23 +48,30 @@ export class CreateTransactionsComponent implements OnInit {
       type: new FormControl(null, Validators.required),
 
     });
+  }
 
+  getTransactionById():void{
+    this.transactionService.readTransactionById(this.id!).pipe(first()).subscribe({
+     
+      next: (transaction) => {
+         this.form.patchValue(transaction);
+          
+      },
+      error: (err) => {
+        console.log("Erro ao buscar dados da transação por id na api",err);
+        
+      }
+  
+     });
   }
 
   onSubmit(): void{
-          this.transactionService.postTransaction(this.form.value).pipe(first()).subscribe({
-     
-    next: () => {
-        console.log("Sucesso!");
-        
-    },
-    error: (err) => {
-      console.log("Erro ao buscar dados da conta na api",err);
-      
+    const payload: Transaction = this.form.getRawValue();  //getRawValue retorna valor de todos os campos até os bloqueado
+    if(this.id){
+      this.updateTransaction(payload);
+      return
     }
-
-   });
-      
+    this.saveTransaction(payload);
   }
 
   dateRangeValidator(minDate: Date, maxDate:Date): ValidatorFn {
@@ -77,4 +97,42 @@ export class CreateTransactionsComponent implements OnInit {
     }
 
   }
+
+  saveTransaction(payload: Transaction): void{
+    this.transactionService.createTransaction(payload).pipe(first()).subscribe({
+     
+      next: () => {
+          console.log("Sucesso!");
+          this.redirectToList();
+          
+      },
+      error: (err) => {
+        console.log("Erro ao gravar dados da transação na api",err);
+        
+      }
+  
+     });
+        
+  }
+
+  updateTransaction(payload: Transaction):void{
+    this.transactionService.updateTransaction(payload, this.id!).pipe(first()).subscribe({
+     
+      next: () => {
+          console.log("Sucesso!");
+          this.redirectToList();
+          
+      },
+      error: (err) => {
+        console.log("Erro ao gravar dados da transação na api",err);
+        
+      }
+  
+     });
+  }
+
+  redirectToList (): void {
+      /* this.showCreateForm = !this.showCreateForm; */
+      this.routerService.setTransactionPage(TransactionsPagesEnum.LIST);
+    }
 }

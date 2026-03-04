@@ -1,4 +1,15 @@
-.page{
+.layout {
     display: grid;
-    grid-template-columns: 10% 1fr;
-}
+    grid-template-columns: 1fr; /* mobile: uma coluna */
+  }
+  
+  @media (min-width: 960px) {
+    .layout {
+      grid-template-columns: 280px 1fr; /* desktop: sidebar + conteúdo */
+    }
+  }
+  
+  .content {
+    min-height: calc(100vh - 56px);
+    padding: 16px;
+  }

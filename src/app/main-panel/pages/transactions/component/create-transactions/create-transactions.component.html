@@ -1,97 +1,52 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<!-- create-transactions.component.html -->
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="txn-form">
 
-  <!--  Bootstrap
-  <div class="form-group">
-    <label for="date-field">Date</label>
-    <input type="date" 
-    class="form-control" 
-    id="date-field"
-    formControlName="date">
-  </div>
+  <div class="txn-grid">
+    <!-- Data -->
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Escolha uma data</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date">
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
 
-  
-  <div class="form-group">
-    <label for="description-field">Descrição</label>
-    <input type="text" 
-    class="form-control" 
-    id="description-field"
-    formControlName="description">  formControlName = Associa campo do html com campo do ts 
-  </div> -->
-<!--   <div class="form-group"> -->
+    <!-- Descrição -->
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Descrição</mat-label>
+      <input matInput placeholder="Descreva a transação" formControlName="description" />
+      <mat-hint>Preencha a descrição.</mat-hint>
+      <mat-error *ngIf="form.get('description')?.touched && form.get('description')?.errors?.['minlength']">
+        A descrição precisa ter no mínimo 5 caracteres
+      </mat-error>
+    </mat-form-field>
 
-  <!-- Angular Material -->
-  <mat-form-field appearance="outline" class="w-100 mb-3">
-    <mat-label>Escolha uma data</mat-label>
-    <input matInput [matDatepicker]="picker" formControlName="description">
-    <mat-hint>DD/MM/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-  
-  <mat-form-field appearance="outline" class="w-100 mb-3">
-    <mat-label >Descrição</mat-label>
-    <input
-    matInput
-    placeholder="Descreva a transação"
-    formControlName="description"
-    />
-    <mat-hint>A descrição deve ser bem descrita</mat-hint>
-    <mat-error>A descrição precisa ser preenchida</mat-error>
-    @if(form.get('description')?.hasError &&
-        form.get('description')?.errors?.['minlength']
-      )
-      {  
-        <mat-error>A descrição precisa ter no mínimo 5 caracteres</mat-error>
-      }
-  </mat-form-field>
-  <!--   </div> -->
-  <!-- <div class="form-group">
-    <label for="amount-field">Valor</label>
-    <input type="number" 
-    class="form-control" 
-    id="amount-field"
-    formControlName="amount"
-    mask="separator.2"
-    thousandSeparator="."
-    decimalMarkers=","
-    prefix="R$ ">
-  </div> -->
-  <mat-form-field appearance="outline" class="w-100 mb-3">
-    <mat-label >Valor</mat-label>
-    <input
-    matInput
-    placeholder="Informe o valor da transação"
-    formControlName="amount"
-    mask="separator.2"
-    thousandSeparator="."
-    decimalMarkers=","
-    prefix="R$ "
-    />
-  </mat-form-field>
- <!--  <div class="form-group">
-    <label for="type">Tipo de transação</label>
-    <select 
-    class="form-control" 
-    id="type"
-    formControlName="type">
-    <option [value]="null" selected>Selecione</option>
-    <option [value]="transactionTypesEnum.INCOME">Entrada</option>
-    <option [value]="transactionTypesEnum.EXPENSE">Saída</option>
-    </select>
-  </div> -->
-  <mat-form-field class="w-100 mb-3">
-    <mat-label>Tipo de transação</mat-label>
-    <mat-select formControlName="type">
-      
+    <!-- Valor -->
+    <mat-form-field appearance="outline" class="half">
+      <mat-label>Valor</mat-label>
+      <input
+        matInput
+        placeholder="Informe o valor da transação"
+        formControlName="amount"
+        mask="separator.2"
+        thousandSeparator="."
+        decimalMarkers=","
+        prefix="R$ "
+      />
+    </mat-form-field>
+
+    <!-- Tipo -->
+    <mat-form-field appearance="outline" class="half">
+      <mat-label>Tipo de transação</mat-label>
+      <mat-select formControlName="type">
         <mat-option [value]="transactionTypesEnum.INCOME">Entrada</mat-option>
         <mat-option [value]="transactionTypesEnum.EXPENSE">Saída</mat-option>
-      
-    </mat-select>
-  </mat-form-field>
-  
-  <div class="d-flex justify-content-between">
+      </mat-select>
+    </mat-form-field>
+  </div>
 
-    <button type="button" class="btn btn-outline-primary" (click)="redirectToList()"> Voltar </button>
+  <div class="txn-actions-row">
+    <button type="button" class="btn btn-outline-primary" (click)="redirectToList()">Voltar</button>
     <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Submit</button>
   </div>
 </form>

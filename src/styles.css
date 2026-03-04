@@ -1,10 +1,53 @@
-body{
-    margin: 0;
+body {
+  margin: 0;
+  height: 100%;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: var(--fs-body);
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 :root {
   --primary-color: white;
   --bg-primary-color: #074197;
+  --space: clamp(0.75rem, 1.2vw, 1.25rem);              /* clamp (valor_mínimo, valor_ideal, valor_máximo) */
+  --fs-body: clamp(0.95rem, 0.4vw + 0.9rem, 1.125rem);
+  --fs-title: clamp(1.25rem, 1vw + 1rem, 2rem);
+  --sidebar-w: 280px; /* largura no desktop e no off-canvas */
+  --gap: 8px;
+  --pad: 12px;
+  --maxw: 1200px;
+  --pad-x: clamp(
+    0.75rem,
+    2vw,
+    1rem
+  ); /* clamp (valor_mínimo, valor_ideal, valor_máximo) */
+  --pad-y: clamp(0.5rem, 1.2vw, 0.75rem);
+  --gap: clamp(0.5rem, 1vw, 0.75rem);
+  --sidebar-bg: var(--bg-primary-color, #ffffff);
+  --sidebar-w: 220px;
+  --item-h: 42px;
+  --radius: 10px;
+  --hover-bg: #f1f5f9; /* slate-100 */
+  --active-bg: #e2e8f0; /* slate-200 */
+  --mdc-outlined-text-field-container-shape: 10px;
+}
+
+h1 {
+  font-size: var(--fs-title);
+}
+
+.section {
+  padding-inline: var(--space);
+  padding-block: calc(var(--space) * 1.25);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+picture,
+img {
+  inline-size: 100%;
+  block-size: auto;
 }

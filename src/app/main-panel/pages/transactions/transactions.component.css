@@ -1,0 +1,19 @@
+.page-wrap {
+  width: min(100% - 2rem, 1200px);
+  margin-inline: auto;
+  padding-block: clamp(0.5rem, 1.2vw, 1rem);
+}
+
+.page-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.page-title {
+  margin: 0;
+  font-size: clamp(1.1rem, 1.2vw + 0.8rem, 1.5rem);
+  font-weight: 700;
+}

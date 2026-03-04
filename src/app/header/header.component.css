@@ -1,22 +1,133 @@
-.header{
-    display: grid;
-    grid-template-columns: 1fr 6fr 1fr;
-    height: 56px;
-    background: var(--bg-primary-color);
-    color: var(--primary-color);
-    padding: 0 24px 0 0;
+/* Contêiner do header */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg-primary-color);
+  color: var(--primary-color);
 }
 
-.logo{
-    width: 74px;
-    height: 56px;   
+/* Linha flexível com wrap */
+.header-container {
+  width: min(100% - 2rem, var(--maxw));
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+  padding: var(--pad-y) var(--pad-x);
+  flex-wrap: wrap; /* permite quebrar no mobile */
 }
 
-.welcome{
-    display: flex;
-    width:100%;
-    height:100%;
+/* Colunas */
+.brand-col {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0; /* evita overflow do título */
+  flex: 0 1 auto; /* flex-grow=0 (“1 significa “pode crescer”.Se sobrar espaço disponível, este elemento pode crescer.”) 
+  flex-shrink=1 (1 significa “pode encolher”. Se faltar espaço, este elemento pode encolher.) flex-basis=auto (Use meu tamanho natural como base.) */
+}
+
+.greet-col {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  min-width: 160px;
+  flex: 1 1 auto;
+}
+
+.actions-col {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  flex: 0 0 auto;
+  padding-right: 15px;
+}
+
+/* Logo + Título */
+.logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  display: block;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1rem, 0.8vw + 0.9rem, 1.25rem);
+  font-weight: 700;
+}
+
+/* Saudação */
+.greet {
+  font-size: clamp(0.9rem, 0.5vw + 0.85rem, 1rem);
+  color: inherit;
+  white-space: nowrap; /* evita quebrar "Olá, Nome" */
+}
+
+/* Botões de ação */
+.icon-btn {
+  /* aumenta área de toque */
+  inline-size: 44px;
+  block-size: 44px;
+  display: inline-grid;
+  place-items: center;
+}
+
+/* -------- Responsividade -------- */
+
+@media (max-width: 640px) {
+  .header-container {
+    flex-wrap: nowrap;             /* impede quebra */
     align-items: center;
-    justify-content: right;
-    padding-right:15px;
+    justify-content: space-between;
+    gap: 0.5rem;  
+  }
+
+  .brand-col {
+    flex: 1 1 auto;                /* ocupa o espaço “elástico” */
+    min-width: 0;                  /* permite o título encolher com reticências */
+  }
+
+  .greet-col {
+    order: 2;
+    justify-content: flex-end;
+    flex: 0 0 auto;                /* tamanho “do conteúdo” */
+  }
+  
+  .greet {
+    font-size: clamp(0.9rem, 1.8vw + 0.6rem, 1rem);
+    flex: 0 0 auto;
+    white-space: wrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+  .actions-col {
+    order: 3;
+    flex: 0 0 auto;
+    margin-left: auto; /* empurra os ícones para a direita */
+  }
+}
+
+/* Em telas médias+, mantemos tudo numa linha */
+@media (min-width: 641px) {
+  .brand-col {
+    order: 1;
+  }
+  .greet-col {
+    order: 2;
+  }
+  .actions-col {
+    order: 3;
+  }
+}
+
+/* Acessibilidade visual (foco) para quem não usa Material em todos botões */
+.icon-btn:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
 }

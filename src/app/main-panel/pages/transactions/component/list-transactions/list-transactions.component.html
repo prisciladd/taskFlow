@@ -1,35 +1,67 @@
+<!-- list-transactions.component.html -->
 <div class="p-3">
+
   <div class="d-flex justify-content-end pb-3">
-
-    <button class="btn btn-primary" (click)="redirectToCreate()">Adicionar transação + </button>
+    <button class="btn btn-primary" (click)="redirectToCreate()">Adicionar transação +</button>
   </div>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">Data</th>
-        <th scope="col">Descrição</th>
-        <th scope="col">Valor</th>
-        <th scope="col">Tipo</th>
-        <th scope="col">Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (item of transactions; track $index) {
-        <tr>
-          <td>{{item.date | date : 'dd/MM/YYYY'}}</td>
-          <td>{{item.description}}</td>
-          <td [class]="item.type| negativeValues">
-            {{item.amount | currency}}
-          </td>
-          <td>{{item.type === 'income' ? "Entrada" : "Saída"}}</td>
-          <td>
-            <button class="btn btn-sm btn-outline-primary me-2" (click)="onEdit   (item.id)">Editar</button>
-            <button class="btn btn-sm btn-outline-danger"       (click)="onDelete (item.id)", (click)="openDialog()">Excluir</button>
 
-            
-          </td>
+  <!-- Modo tabela (desktop/tablet) -->
+  <div class="table-responsive d-none d-md-block">
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr>
+          <th scope="col">Data</th>
+          <th scope="col">Descrição</th>
+          <th scope="col">Valor</th>
+          <th scope="col">Tipo</th>
+          <th scope="col" >Ações</th>
         </tr>
+      </thead>
+      <tbody>
+        @for (item of transactions; track $index) {
+          <tr>
+            <td>{{ item.date | date : 'dd/MM/YYYY' }}</td>
+            <td >{{ item.description }}</td>
+            <td [class]="item.type | negativeValues">
+              {{ item.amount | currency }}
+            </td>
+            <td>{{ item.type === 'income' ? 'Entrada' : 'Saída' }}</td>
+            <td >
+              <button class="btn btn-sm btn-outline-primary me-2" (click)="onEdit(item.id)">Editar</button>
+              <button class="btn btn-sm btn-outline-danger" (click)="onDelete(item.id); openDialog()">Excluir</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modo cards (mobile) -->
+  <div class="d-md-none">
+    <div class="txn-card-list">
+      @for (item of transactions; track $index) {
+        <article class="txn-card" role="group" aria-label="Transação">
+          <header class="txn-head">
+            <span class="txn-date">{{ item.date | date : 'dd/MM/YYYY' }}</span>
+            <span class="txn-type badge" [class.badge-success]="item.type==='income'" [class.badge-danger]="item.type==='expense'">
+              {{ item.type === 'income' ? 'Entrada' : 'Saída' }}
+            </span>
+          </header>
+
+          <p class="txn-desc">{{ item.description }}</p>
+
+          <div class="txn-footer">
+            <span class="txn-amount" [class.negative]="item.type==='expense'">
+              {{ item.amount | currency }}
+            </span>
+            <div class="txn-actions">
+              <button class="btn btn-sm btn-outline-primary" (click)="onEdit(item.id)">Editar</button>
+              <button class="btn btn-sm btn-outline-danger" (click)="onDelete(item.id); openDialog()">Excluir</button>
+            </div>
+          </div>
+        </article>
       }
-    </tbody>
-  </table>
+    </div>
+  </div>
+
 </div>

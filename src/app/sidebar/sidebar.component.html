@@ -1,8 +1,39 @@
-<aside class="sidebar">
+<button
+  class="sidebar-toggle"
+  type="button"
+  (click)="toggle()"
+  aria-label="Abrir/fechar menu"
+>
+  <mat-icon
+    height="24"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    aria-label="Notificações"
+    fontIcon="menu"
+  ></mat-icon>
+</button>
 
-    @for (item of menuItems; track $index) {
+<!-- backdrop para mobile -->
+<div
+  class="sidebar-backdrop"
+  [class.open]="open()"
+  (click)="close()"
+  aria-hidden="true"
+></div>
 
-        <button mat-raised-button (click)="redirectToPage(item.page)">{{item.label}}</button>
-    }
-
-</aside>
+<nav
+  class="sidebar"
+  [class.open]="open()"
+  role="navigation"
+  aria-label="Menu lateral"
+>
+  @for (item of menuItems; track $index) {
+  <button
+    class="sidebar-item"
+    mat-raised-button
+    (click)="redirectToPage(item.page)"
+  >
+    {{ item.label }}
+  </button>
+  }
+</nav>

@@ -1,13 +1,14 @@
-import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output, signal, HostListener, Input } from '@angular/core';
 import { Pages } from '../constants/pages.enum';
 import { MenuIten } from '../models/menu-item.model';
 import {MatButtonModule} from '@angular/material/button';
 import { RouterService } from '../core/services/router.service';
+import { MatIcon } from "@angular/material/icon";
 
 
 @Component({
   selector: 'app-sidebar',
-  imports: [MatButtonModule],
+  imports: [MatButtonModule, MatIcon],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
@@ -44,10 +45,24 @@ export class SidebarComponent{
       page: Pages.TRANSFERS,
     },
   ];
-  
+    
+  open = signal(false);
+
+  toggle() { this.open.update(v => !v); }
+  close()  { this.open.set(false); }
+
+  // fecha automaticamente quando for desktop
+  @HostListener('window:resize')
+  onResize() {
+    if (window.innerWidth >= 960 && this.open()) this.open.set(false);
+  }
+
+
   redirectToPage(page: Pages) {
     
     this.routerService.setCurrentPage(page);
+
+    this.close();
     
     /* 
     Usado com @Input @Output

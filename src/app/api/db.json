@@ -6,31 +6,17 @@
   },
   "transactions": [
     {
-      "id": "2",
-      "date": "2026-02-02T14:32:00",
-      "description": "Supermercado",
-      "amount": 230.5,
-      "type": "expense"
-    },
-    {
-      "date": "2026-02-03T20:10:00",
-      "description": "Netflix",
-      "amount": "40",
-      "type": "expense",
-      "id": "3"
-    },
-    {
-      "id": "4",
-      "date": "2026-02-05T09:15:00",
-      "description": "Freelance",
-      "amount": 1000,
+      "id": "023c",
+      "date": "2026-4-3",
+      "description": "Salário",
+      "amount": "4100",
       "type": "income"
     },
     {
-      "id": "9c0d",
-      "date": "2026-02-19",
-      "description": "Decoração",
-      "amount": 100,
+      "id": "67c3",
+      "date": "2026-4-3",
+      "description": "Banho Pet",
+      "amount": "150",
       "type": "expense"
     }
   ],

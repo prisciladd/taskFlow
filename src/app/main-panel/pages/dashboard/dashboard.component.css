@@ -3,6 +3,9 @@ h3{
 }
 
 .cards-container-full{
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
     padding-top: 15px;
 }
 
@@ -13,8 +16,10 @@ h3{
 }
 
 .cards-container{
+    
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
     padding-top: 5px;
 
 }

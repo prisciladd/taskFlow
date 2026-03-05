@@ -20,6 +20,19 @@
       "type": "expense"
     }
   ],
-  "transfers": [],
+  "transfers": [
+    {
+      "id": "b7f7",
+      "account": "12",
+      "amount": null,
+      "description": null
+    },
+    {
+      "id": "b7ed",
+      "account": "12345-6",
+      "amount": "100,00",
+      "description": "Gás"
+    }
+  ],
   "loans": []
 }

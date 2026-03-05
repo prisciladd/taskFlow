@@ -1,1 +1,46 @@
-<p>transfers works!</p>
+<div class="page-wrap">
+  <div class="page-bar">
+    <h3 class="page-title">Transferência</h3>
+    <p>Envie dinheiro para outra conta</p>
+  </div>
+  <div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="txn-form">
+      <div class="txn-grid">
+        <!-- Conta Destino -->
+        <mat-form-field appearance="outline">
+          <mat-label>Conta Destino</mat-label>
+          <input matInput placeholder="12345-6" formControlName="account" />
+        </mat-form-field>
+
+        <!-- Valor -->
+        <mat-form-field appearance="outline">
+          <mat-label>Valor</mat-label>
+          <input matInput placeholder="R$ 0,00" formControlName="value" />
+        </mat-form-field>
+
+        <!-- Descrição -->
+        <mat-form-field appearance="outline">
+          <mat-label>Descrição</mat-label>
+          <input
+            matInput
+            placeholder="Ex: Pagamento de aluguel"
+            formControlName="description"
+          />
+        </mat-form-field>
+
+        <!-- Tipo de transação -->
+        <mat-form-field appearance="outline" class="half">
+          <mat-label>Tipo de transação</mat-label>
+          <mat-select formControlName="type" class="no-click">
+            <mat-option [value]="transactionTypesEnum.TRANSFER" disabled>Transferência</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button matFab extended>
+          <mat-icon>send</mat-icon>
+          Transferir
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -6,62 +6,89 @@ import { Account } from './models/account.model';
 import { TransactionsService } from '../transactions/services/transactions.service';
 import { Transaction } from './models/transaction.model';
 import { first } from 'rxjs';
+import { Transfer } from '../transfers/models/transfer.model';
+import { TransfersService } from '../transfers/services/transfers.service';
 
 @Component({
   selector: 'app-dashboard',
   imports: [MatCard, MatCardContent, CurrencyPipe],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrl: './dashboard.component.css',
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
   private readonly dashbordService = inject(DashboardService);
   private readonly transactionService = inject(TransactionsService);
+  private readonly transferService = inject(TransfersService);
+
   totalReceita: number = 0;
   totalDespesa: number = 0;
   saldoPeriodo: number = 0;
 
   acount?: Account;
-  transaction?:Transaction[];
+  transaction?: Transaction[];
+  transactions: Transaction[] = [];
+  transfers?: Transfer;
 
   ngOnInit(): void {
     this.getAccount();
     this.getTransactions();
   }
 
-  getAccount():void{
-       this.dashbordService.getAccount().pipe(first()).subscribe({
-    next: (res) => {
-        this.acount = res;
-        
-    },
-    error: (err) => {
-      console.log("Erro ao buscar dados da conta na api",err);
-      
-    },
-    
-   });
-  };
-
-  getTransactions():void{
-     this.transactionService.readTransaction().pipe(first()).subscribe({
-    next: (res) =>{
-      this.transaction = res;
-
-      this.transaction.forEach((item) => {
-        if(item.type == "income"){
-          this.totalReceita += item.amount
-          /* this.transaction.reduce((acc,item) => acc + Number(item.amount),0); */
-        }else{
-          this.totalDespesa += item.amount
-        }
-        this.saldoPeriodo = this.totalReceita - this.totalDespesa
+  getAccount(): void {
+    this.dashbordService
+      .getAccount()
+      .pipe(first())
+      .subscribe({
+        next: (res) => {
+          this.acount = res;
+        },
+        error: (err) => {
+          console.log('Erro ao buscar dados da conta na api', err);
+        },
       });
-         
-    },
-    error: (err) =>{
-      console.log("Erro ao buscar dados da transação na api",err);
-    }
-   })
-  };
+  }
 
+  getTransactions(): void {
+    this.transactionService
+      .readTransaction()
+      .pipe(first())
+      .subscribe({
+        next: (res) => {
+          this.transaction = res;
+        },
+        error: (err) => {
+          console.log('Erro ao buscar dados da transação na api', err);
+        },
+      });
+  }
+
+  getTransfer(): void {
+    this.transferService.readTransfers()
+      
+      .pipe(first())
+      .subscribe({
+        next: (res) => {
+          this.transfers = res;
+        },
+        error: (err) => {
+          console.log('Erro ao buscar dados da transferência na api', err);
+        },
+      });
+  }
+
+  calcBalance(): void {
+    this.transactions.forEach((item) => {
+      if (item.type == 'income') {
+        this.totalReceita += item.amount;
+        /* this.transaction.reduce((acc,item) => acc + Number(item.amount),0); */
+      }
+      if (item.type == 'expense') {
+        this.totalDespesa += item.amount;
+      }
+      if (item.type == 'transfer') {
+        /* this.acount?.balance -= this.transfers?.amount */
+      }
+      this.saldoPeriodo = this.totalReceita - this.totalDespesa;
+    });
+  }
 }

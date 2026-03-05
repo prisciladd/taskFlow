@@ -1,0 +1,40 @@
+.txn-form {
+  width: min(100%, 900px);
+}
+
+.txn-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+/* colunas a partir de 768px */
+@media (min-width: 768px) {
+  .txn-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .txn-grid .full {
+    grid-column: 1 / -1; /* ocupa as duas colunas */
+  }
+  .txn-grid .half {
+    grid-column: auto; /* ocupa meia largura */
+  }
+}
+
+.txn-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 360px) {
+  .mat-mdc-form-field {
+    --mdc-outlined-text-field-container-shape: 10px;
+  }
+}
+
+.no-click {
+  pointer-events: none;
+}

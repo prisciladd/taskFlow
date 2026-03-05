@@ -8,20 +8,14 @@ body {
 :root {
   --primary-color: white;
   --bg-primary-color: #074197;
-  --space: clamp(0.75rem, 1.2vw, 1.25rem);              /* clamp (valor_mínimo, valor_ideal, valor_máximo) */
+  --space: clamp(0.75rem, 1.2vw, 1.25rem); /* clamp (valor_mínimo, valor_ideal, valor_máximo) */
   --fs-body: clamp(0.95rem, 0.4vw + 0.9rem, 1.125rem);
   --fs-title: clamp(1.25rem, 1vw + 1rem, 2rem);
-  --sidebar-w: 280px; /* largura no desktop e no off-canvas */
-  --gap: 8px;
-  --pad: 12px;
   --maxw: 1200px;
-  --pad-x: clamp(
-    0.75rem,
-    2vw,
-    1rem
-  ); /* clamp (valor_mínimo, valor_ideal, valor_máximo) */
+  --pad-x: clamp(0.75rem,2vw,1rem); /* clamp (valor_mínimo, valor_ideal, valor_máximo) */
   --pad-y: clamp(0.5rem, 1.2vw, 0.75rem);
   --gap: clamp(0.5rem, 1vw, 0.75rem);
+  --sidebar-w: 280px; /* largura no desktop e no off-canvas */
   --sidebar-bg: var(--bg-primary-color, #ffffff);
   --sidebar-w: 220px;
   --item-h: 42px;

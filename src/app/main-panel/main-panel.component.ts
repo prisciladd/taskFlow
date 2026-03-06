@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { Pages } from '../constants/pages.enum';
-import { CreditComponent } from './pages/credit/credit.component';
+import { LoanComponent } from './pages/loan/loan.component';
 import { TransfersComponent } from './pages/transfers/transfers.component';
 import { RouterService } from '../core/services/router.service';
 import { first } from 'rxjs';
@@ -13,9 +13,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [
     DashboardComponent,
     TransactionsComponent,
-    CreditComponent,
-    TransfersComponent
-],
+    LoanComponent,
+    TransfersComponent,
+  ],
   templateUrl: './main-panel.component.html',
   styleUrl: './main-panel.component.css',
 })

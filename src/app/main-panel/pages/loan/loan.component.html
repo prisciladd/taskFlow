@@ -1,0 +1,99 @@
+<section class="loan">
+    <header class="loan__header">
+      <h2>Simulador de Empréstimo</h2>
+      <div class="balance">
+        <span>Saldo atual:</span>
+        <strong>{{ (balance$ | async) | currency:'BRL':'symbol-narrow':'1.2-2' }}</strong>
+      </div>
+    </header>
+  
+    <div class="loan__content">
+      <form [formGroup]="form" class="loan__form" (ngSubmit)="0">
+  
+        <div class="form-field">
+          <label for="amount">Valor solicitado</label>
+          <div class="input-group">
+            <span>R$</span>
+            <input
+              type="number"
+              id="amount"
+              formControlName="amount"
+              min="100"
+              step="50"
+              placeholder="ex: 3000" />
+          </div>
+          @if (f.amount.touched && f.amount.invalid) {
+            <small class="error">Informe um valor ≥ 100.</small>
+          }
+        </div>
+  
+        <div class="form-field">
+          <label for="installments">Parcelas</label>
+          <input
+            type="number"
+            id="installments"
+            formControlName="installments"
+            min="2" max="72" step="1" />
+          @if (f.installments.touched && f.installments.invalid) {
+            <small class="error">Parcelas entre 2 e 72.</small>
+          }
+        </div>
+  
+        <div class="form-field">
+          <label for="monthlyRatePercent">Taxa de juros (mês) %</label>
+          <input
+            type="number"
+            id="monthlyRatePercent"
+            formControlName="monthlyRatePercent"
+            min="0" max="20" step="0.01"
+            placeholder="ex: 2.30" />
+          @if (f.monthlyRatePercent.touched && f.monthlyRatePercent.invalid) {
+            <small class="error">Informe a taxa de 0 a 20% a.m.</small>
+          }
+        </div>
+  
+        <div class="actions">
+          <!-- O botão manda o simulation atual para contratar() -->
+          <button
+            type="button"
+            class="btn btn-primary"
+            [disabled]="!canSubmit"
+            (click)="onContratar()">
+            @if (!loading()) { Contratar }
+            @if (loading()) { <span class="spinner"></span> Processando... }
+          </button>
+        </div>
+  
+        @if (apiError()) {
+          <div class="api-error">{{ apiError() }}</div>
+        }
+      </form>
+  
+      <section class="loan__summary">
+        <h3>Resumo da Simulação</h3>
+        @let sim = (simulation$ | async);
+        @if (sim) {
+          <div class="cards">
+            <article class="card">
+              <span>Parcela (estimada)</span>
+              <strong>{{ sim.monthlyPayment | currency:'BRL':'symbol-narrow':'1.2-2' }}</strong>
+            </article>
+  
+            <article class="card">
+              <span>Total a pagar</span>
+              <strong>{{ sim.total | currency:'BRL':'symbol-narrow':'1.2-2' }}</strong>
+            </article>
+  
+            <article class="card">
+              <span>Juros totais</span>
+              <strong class="muted">{{ sim.totalInterest | currency:'BRL':'symbol-narrow':'1.2-2' }}</strong>
+            </article>
+          </div>
+  
+          <p class="footnote">
+            * Cálculo pelo sistema PRICE. Valores estimados.
+          </p>
+        }
+      </section>
+    </div>
+  </section>

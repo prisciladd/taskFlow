@@ -121,11 +121,10 @@ export class CreateTransactionsComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          console.log('Sucesso!');
           this.redirectToList();
         },
         error: (err) => {
-          console.log('Erro ao gravar dados da transação na api', err);
+          console.log('Erro ao salvar dados da transação na api', err);
         },
       });
   }
@@ -136,11 +135,10 @@ export class CreateTransactionsComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          console.log('Sucesso!');
           this.redirectToList();
         },
         error: (err) => {
-          console.log('Erro ao gravar dados da transação na api', err);
+          console.log('Erro ao atualizar dados da transação na api', err);
         },
       });
   }

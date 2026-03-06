@@ -1,24 +1,29 @@
 <!-- create-transactions.component.html -->
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="txn-form">
-
   <div class="txn-grid">
     <!-- Data -->
     <mat-form-field appearance="outline" class="full">
       <mat-label>Escolha uma data</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="date">
+      <input matInput [matDatepicker]="picker" formControlName="date" />
       <mat-hint>DD/MM/YYYY</mat-hint>
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
     <!-- Descrição -->
     <mat-form-field appearance="outline" class="full">
       <mat-label>Descrição</mat-label>
-      <input matInput placeholder="Descreva a transação" formControlName="description" />
+      <input
+        matInput
+        placeholder="Descreva a transação"
+        formControlName="description"
+      />
       <mat-hint>Preencha a descrição.</mat-hint>
-      <mat-error *ngIf="form.get('description')?.touched && form.get('description')?.errors?.['minlength']">
-        A descrição precisa ter no mínimo 5 caracteres
-      </mat-error>
+      <mat-error> A descrição precisa ter no mínimo 5 caracteres </mat-error>
+      <!-- *ngIf="form.get('description')?.touched && form.get('description')?.errors?.['minlength']" -->
     </mat-form-field>
 
     <!-- Valor -->
@@ -46,7 +51,15 @@
   </div>
 
   <div class="txn-actions-row">
-    <button type="button" class="btn btn-outline-primary" (click)="redirectToList()">Voltar</button>
-    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Submit</button>
+    <button
+      type="button"
+      class="btn btn-outline-primary"
+      (click)="redirectToList()"
+    >
+      Voltar
+    </button>
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+      Submit
+    </button>
   </div>
 </form>

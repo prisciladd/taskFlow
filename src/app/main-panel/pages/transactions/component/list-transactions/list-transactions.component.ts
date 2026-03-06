@@ -24,8 +24,7 @@ export class ListTransactionsComponent implements OnInit{
 
   transactions?:Transaction[];
   readonly dialog = inject(MatDialog);
-  readonly name = model('');
-  readonly animal = signal('');
+
 
   /* showCreateForm = false; */
   
@@ -35,13 +34,13 @@ export class ListTransactionsComponent implements OnInit{
   
   openDialog(): void {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      data: {name: this.name(), animal: this.animal()},
+     /*  data: {name: this.name(), animal: this.animal()}, */
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       if (result !== undefined) {
-        this.animal.set(result);
+        /* this.animal.set(result); */
       }
     });
   }

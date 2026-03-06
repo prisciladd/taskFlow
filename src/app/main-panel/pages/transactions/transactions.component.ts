@@ -7,10 +7,11 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterService } from '../../../core/services/router.service';
 import { TransactionsPagesEnum } from './constants/transaction-pages.enum';
+import { DeleteConfirmationComponent } from "../../../delete-confirmation/delete-confirmation.component";
 
 @Component({
   selector: 'app-transactions',
-  imports: [CreateTransactionsComponent, ListTransactionsComponent, MatButtonModule, MatDividerModule, MatIconModule, AsyncPipe],
+  imports: [CreateTransactionsComponent, ListTransactionsComponent, MatButtonModule, MatDividerModule, MatIconModule, AsyncPipe, DeleteConfirmationComponent],
   templateUrl: './transactions.component.html',
   styleUrl: './transactions.component.css'
 })

@@ -1,8 +1,7 @@
 {
   "account": {
     "id": 1,
-    "name": "Priscila",
-    "balance": 5230.75
+    "name": "Priscila"
   },
   "transactions": [
     {
@@ -18,6 +17,27 @@
       "description": "Banho Pet",
       "amount": "150",
       "type": "expense"
+    },
+    {
+      "id": "68c9",
+      "date": "2026-03-06T03:00:00.000Z",
+      "description": "Pagar dívidas",
+      "amount": "1200",
+      "type": "expense"
+    },
+    {
+      "date": "2026-04-16T03:00:00.000Z",
+      "description": "Receber empréstimo",
+      "amount": "1500",
+      "type": "income",
+      "id": "1837"
+    },
+    {
+      "date": "2026-03-24T03:00:00.000Z",
+      "description": "boleto",
+      "amount": "34234",
+      "type": "expense",
+      "id": "7a8a"
     }
   ],
   "transfers": [
@@ -34,5 +54,15 @@
       "description": "Gás"
     }
   ],
-  "loans": []
+  "loans": [
+    {
+      "id": "f049",
+      "amount": 3000,
+      "installments": 12,
+      "monthlyRate": 0.024
+    }
+  ],
+  "rates": {
+    "personalLoanMonthlyRate": 2.4
+  }
 }

@@ -4,9 +4,7 @@
   <mat-card class="cards-full" appearance="raised">
     <mat-card-content>
       <p>Saldo disponível</p>
-      <p>
-        {{ acount?.balance | currency}}
-      </p>
+      <strong>{{ (balance$ | async) | currency:'BRL':'symbol-narrow':'1.2-2' }}</strong>
       <div class="cards-container">
         <p>Agência 0001</p>
         <p>Conta 123456-7</p>

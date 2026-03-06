@@ -34,7 +34,3 @@
     --mdc-outlined-text-field-container-shape: 10px;
   }
 }
-
-.no-click {
-  pointer-events: none;
-}

@@ -27,16 +27,16 @@ export class SidebarComponent{
       page: Pages.DASHBOARD,
     },
     {
-      label: 'Extrato',
+      label: 'Transações',
       selected: false,
       icon: '',
       page: Pages.TRANSACTIONS,
     },
     {
-      label: 'Crédito',
+      label: 'Empréstimos',
       selected: false,
       icon: '',
-      page: Pages.CREDIT,
+      page: Pages.LOAN,
     },
     {
       label: 'Transferências',

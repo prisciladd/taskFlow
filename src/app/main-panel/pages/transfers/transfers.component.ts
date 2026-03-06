@@ -47,7 +47,7 @@ export class TransfersComponent implements OnInit {
       account: new FormControl(),
       value: new FormControl(),
       description: new FormControl(),
-      type: new FormControl(this.transactionTypesEnum.TRANSFER)
+      type: new FormControl({value: this.transactionTypesEnum.TRANSFER, disabled: true})
     });
   }
 

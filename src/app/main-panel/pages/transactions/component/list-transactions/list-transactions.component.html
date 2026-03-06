@@ -28,7 +28,7 @@
             <td>{{ item.type === 'income' ? 'Entrada' : 'Saída' }}</td>
             <td >
               <button class="btn btn-sm btn-outline-primary me-2" (click)="onEdit(item.id)">Editar</button>
-              <button class="btn btn-sm btn-outline-danger" (click)="onDelete(item.id); openDialog()">Excluir</button>
+              <button class="btn btn-sm btn-outline-danger" (click)="openDialog()">Excluir</button>
             </td>
           </tr>
         }
@@ -56,7 +56,7 @@
             </span>
             <div class="txn-actions">
               <button class="btn btn-sm btn-outline-primary" (click)="onEdit(item.id)">Editar</button>
-              <button class="btn btn-sm btn-outline-danger" (click)="onDelete(item.id); openDialog()">Excluir</button>
+              <button class="btn btn-sm btn-outline-danger" (click)=" openDialog()">Excluir</button>
             </div>
           </div>
         </article>

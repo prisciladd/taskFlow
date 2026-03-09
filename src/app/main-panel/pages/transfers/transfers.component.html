@@ -6,6 +6,17 @@
   <div>
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="txn-form">
       <div class="txn-grid">
+        <!-- Data da transferência -->
+        <mat-form-field appearance="outline">
+          <mat-label>Data da transferência</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="date" />
+          <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
         <!-- Conta Destino -->
         <mat-form-field appearance="outline">
           <mat-label>Conta Destino</mat-label>
@@ -15,7 +26,7 @@
         <!-- Valor -->
         <mat-form-field appearance="outline">
           <mat-label>Valor</mat-label>
-          <input matInput placeholder="R$ 0,00" formControlName="value" />
+          <input matInput placeholder="R$ 0,00" formControlName="amount" />
         </mat-form-field>
 
         <!-- Descrição -->

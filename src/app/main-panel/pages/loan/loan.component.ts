@@ -1,30 +1,36 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators, NonNullableFormBuilder } from '@angular/forms';
-import { CurrencyPipe, DecimalPipe } from '@angular/common';
-import { LoanService } from './services/loan.service';
-import { AccountStore } from './services/account.store';
+import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
+import { FormBuilder, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { first, map, startWith } from 'rxjs';
 import { LoanSimulationResult } from './models/loan.model';
-import { startWith, map } from 'rxjs';
+import { AccountStore } from './services/account.store';
+import { LoanService } from './services/loan.service';
+import { TransactionsService } from '../transactions/services/transactions.service';
+import { Transaction } from '../dashboard/models/transaction.model';
+import { TransactionTypes } from '../../../constants/transactions-types.enum';
 
 @Component({
   selector: 'app-loan',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './loan.component.html',
-  styleUrls: ['./loan.component.css'],
+  styleUrls: ['./loan.component.scss'],
   providers: [CurrencyPipe, DecimalPipe]
 })
 export class LoanComponent {
-  private fb: NonNullableFormBuilder = inject(FormBuilder).nonNullable;
+  private readonly fb: NonNullableFormBuilder = inject(FormBuilder).nonNullable;
   private readonly loanService = inject(LoanService);
   private readonly accountStore = inject(AccountStore);
+  private readonly transactionService = inject(TransactionsService);
 
   // Exibir saldo no template com async pipe
   balance$ = this.accountStore.balance$;
 
   loading = signal(false);
   apiError = signal<string | null>(null);
+  transactionTypesEnum = TransactionTypes;
+  todayLocale = new Date().toLocaleDateString().split('/');
+  todayISO = `${this.todayLocale[2]}-${this.todayLocale[1]}-${this.todayLocale[0]}`;
 
   form = this.fb.group({
     amount: this.fb.control(3000, {
@@ -37,6 +43,10 @@ export class LoanComponent {
     monthlyRatePercent: this.fb.control(2.3, {
       validators: [Validators.required, Validators.min(0), Validators.max(20)],
     }),
+    id:this.fb.control(''),
+    date: this.fb.control(this.todayISO),
+    description: this.fb.control(''),
+    type: this.fb.control({value: this.transactionTypesEnum.LOAN, disabled: true})
   });
 
   // Resultado da simulação (Observável) derivado do formulário
@@ -74,15 +84,17 @@ export class LoanComponent {
 
     const value = this.form.getRawValue();
     const payload = {
-      amount: value.amount!,
-      installments: value.installments!,
-      monthlyRate: (value.monthlyRatePercent! / 100),
+      amount: value.amount,
+      installments: value.installments,
+      monthlyRate: (value.monthlyRatePercent / 100),
+      
     };
+    const payloadTransaction: Transaction = this.form.getRawValue();
 
     this.loading.set(true);
     this.apiError.set(null);
 
-    this.loanService.submitLoan(payload).subscribe({
+    this.loanService.submitLoan(payload).pipe(first()).subscribe({
       next: (res) => {
         // 1) Credita o valor solicitado no saldo global
         this.accountStore.credit(
@@ -98,6 +110,18 @@ export class LoanComponent {
         this.loading.set(false);
       }
     });
+
+    this.transactionService
+          .createTransaction(payloadTransaction)
+          .pipe(first())
+          .subscribe({
+            next: () => {
+              console.log('Transferência realizada!');
+            },
+            error: (err) => {
+              console.log('Erro ao gravar dados da transação na api', err);
+            },
+          });
   }
 
   onContratar() {
@@ -105,9 +129,9 @@ export class LoanComponent {
   
     const raw = this.form.getRawValue();
     const simulation = this.loanService.simulate({
-      amount: raw.amount!,
-      installments: raw.installments!,
-      monthlyRate: (raw.monthlyRatePercent! / 100)
+      amount: raw.amount,
+      installments: raw.installments,
+      monthlyRate: (raw.monthlyRatePercent / 100)
     });
   
     this.contratar(simulation); // usa o mesmo método que já existia

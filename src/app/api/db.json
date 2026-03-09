@@ -38,6 +38,29 @@
       "amount": "34234",
       "type": "expense",
       "id": "7a8a"
+    },
+    {
+      "id": "d24a",
+      "account": "12345-6",
+      "value": "10",
+      "description": "Boleto mercado pago",
+      "type": "transfer"
+    },
+    {
+      "id": "ded7",
+      "account": "1234-6",
+      "date": "2026-03-09T03:00:00.000Z",
+      "value": "12",
+      "description": "teste",
+      "type": "transfer"
+    },
+    {
+      "id": "f01c",
+      "account": "1234-5",
+      "date": "2026-03-10T03:00:00.000Z",
+      "amount": "25",
+      "description": "teste 2",
+      "type": "transfer"
     }
   ],
   "transfers": [
@@ -52,12 +75,67 @@
       "account": "12345-6",
       "amount": "100,00",
       "description": "Gás"
+    },
+    {
+      "id": "fd3a",
+      "account": "4009-4",
+      "value": "13246-2",
+      "description": "Pagar cartão de crédito",
+      "type": "transfer"
+    },
+    {
+      "id": "cae5",
+      "account": "4009-4",
+      "value": "13246-2",
+      "description": "38.50",
+      "type": "transfer"
+    },
+    {
+      "id": "e5c0",
+      "account": "12345-6",
+      "value": "10",
+      "description": "Boleto mercado pago",
+      "type": "transfer"
+    },
+    {
+      "id": "db62",
+      "account": "1234-6",
+      "date": "2026-03-09T03:00:00.000Z",
+      "value": "12",
+      "description": "teste",
+      "type": "transfer"
+    },
+    {
+      "id": "50a2",
+      "account": "1234-5",
+      "date": "2026-03-10T03:00:00.000Z",
+      "amount": "25",
+      "description": "teste 2",
+      "type": "transfer"
     }
   ],
   "loans": [
     {
       "id": "f049",
       "amount": 3000,
+      "installments": 12,
+      "monthlyRate": 0.024
+    },
+    {
+      "id": "9c10",
+      "amount": 1000,
+      "installments": 12,
+      "monthlyRate": 0.024
+    },
+    {
+      "id": "b998",
+      "amount": 1000,
+      "installments": 12,
+      "monthlyRate": 0.024
+    },
+    {
+      "id": "a65d",
+      "amount": 1000,
       "installments": 12,
       "monthlyRate": 0.024
     }

@@ -11,60 +11,31 @@
 
   <div class="loan__content">
     <form [formGroup]="form" class="loan__form" (ngSubmit)="(0)">
-      <div class="form-field">
-        <label for="amount">Valor solicitado</label>
-        <div class="input-group">
-          <span>R$</span>
-          <input
-            type="number"
-            id="amount"
-            formControlName="amount"
-            min="100"
-            step="50"
-            placeholder="ex: 3000"
-          />
-        </div>
-        @if (f['amount'].touched && f['amount'].invalid) {
-        <small class="error">Informe um valor ≥ 100.</small>
-        }
-      </div>
+      <!-- Data do empréstimo -->
+      <mat-form-field appearance="outline">
+        <mat-label>Data da transferência</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date" />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
 
-      <div class="form-field">
-        <label for="installments">Parcelas</label>
-        <div class="input-group">
-          <span>Nº</span>
-          <input
-            type="number"
-            id="installments"
-            formControlName="installments"
-            min="2"
-            max="72"
-            step="1"
-          />
-          @if (f['installments'].touched && f['installments'].invalid) {
-          <small class="error">Parcelas entre 2 e 72.</small>
-          }
-        </div>
-      </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Valor do empréstimo</mat-label>
+        <input matInput placeholder="12345-6" formControlName="amount" />
+      </mat-form-field>
 
-      <div class="form-field">
-        <label for="monthlyRatePercent">Taxa de juros (mês) %</label>
-        <div class="input-group">
-          <span>%</span>
-          <input
-            type="number"
-            id="monthlyRatePercent"
-            formControlName="monthlyRatePercent"
-            min="0"
-            max="20"
-            step="0.01"
-            placeholder="ex: 2.30"
-          />
-          @if (f['monthlyRatePercent'].touched && f['monthlyRatePercent'].invalid) {
-          <small class="error">Informe a taxa de 0 a 20% a.m.</small>
-          }
-        </div>
-      </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Nº de parcelas</mat-label>
+        <input matInput placeholder="12345-6" formControlName="installments" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Taxa de juros (a.m)</mat-label>
+        <input matInput placeholder="12345-6" formControlName="monthlyRatePercent" />
+      </mat-form-field>
 
       <div class="actions">
         <!-- O botão manda o simulation atual para contratar() -->

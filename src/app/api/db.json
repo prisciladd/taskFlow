@@ -61,6 +61,33 @@
       "amount": "25",
       "description": "teste 2",
       "type": "transfer"
+    },
+    {
+      "id": "",
+      "amount": 1000,
+      "installments": 12,
+      "monthlyRatePercent": 2.4,
+      "date": "2026-9-3",
+      "description": "",
+      "type": "loan"
+    },
+    {
+      "id": "",
+      "amount": 3000,
+      "installments": 12,
+      "monthlyRatePercent": 2.4,
+      "date": "2026-03-09T03:00:00.000Z",
+      "description": "",
+      "type": "loan"
+    },
+    {
+      "id": "",
+      "amount": 3000,
+      "installments": 12,
+      "monthlyRatePercent": 2.4,
+      "date": "2026-03-09T03:00:00.000Z",
+      "description": "",
+      "type": "loan"
     }
   ],
   "transfers": [
@@ -136,6 +163,24 @@
     {
       "id": "a65d",
       "amount": 1000,
+      "installments": 12,
+      "monthlyRate": 0.024
+    },
+    {
+      "id": "507e",
+      "amount": 1000,
+      "installments": 12,
+      "monthlyRate": 0.024
+    },
+    {
+      "id": "7122",
+      "amount": 3000,
+      "installments": 12,
+      "monthlyRate": 0.024
+    },
+    {
+      "id": "",
+      "amount": 3000,
       "installments": 12,
       "monthlyRate": 0.024
     }

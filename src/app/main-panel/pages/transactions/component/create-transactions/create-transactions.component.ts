@@ -8,18 +8,17 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { TransactionTypes } from '../../../../../constants/transactions-types.enum';
-import { TransactionsService } from '../../services/transactions.service';
-import { MatInputModule } from '@angular/material/input';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { provideNgxMask } from 'ngx-mask';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { first } from 'rxjs';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { provideNgxMask } from 'ngx-mask';
+import { first } from 'rxjs';
+import { TransactionTypes } from '../../../../../constants/transactions-types.enum';
 import { Transaction } from '../../../dashboard/models/transaction.model';
-import { RouterService } from '../../../../../core/services/router.service';
-import { TransactionsPagesEnum } from '../../constants/transaction-pages.enum';
+import { TransactionsService } from '../../services/transactions.service';
 
 @Component({
   selector: 'app-create-transactions',
@@ -29,6 +28,7 @@ import { TransactionsPagesEnum } from '../../constants/transaction-pages.enum';
     MatDatepickerModule,
     MatFormFieldModule,
     MatSelectModule,
+    RouterModule
   ],
   templateUrl: './create-transactions.component.html',
   styleUrl: './create-transactions.component.css',
@@ -37,16 +37,17 @@ import { TransactionsPagesEnum } from '../../constants/transaction-pages.enum';
 export class CreateTransactionsComponent implements OnInit {
   form!: FormGroup;
   transactionTypesEnum = TransactionTypes;
-  /* today = new Date ().toISOString().substring(0,10); */
   todayLocale = new Date().toLocaleDateString().split('/');
   todayISO = `${this.todayLocale[2]}-${this.todayLocale[1]}-${this.todayLocale[0]}`;
   private readonly transactionService = inject(TransactionsService);
-  private readonly routerService = inject(RouterService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   @Input() id?: string;
 
   ngOnInit(): void {
     this.buildForm();
+    this.id = this.route.snapshot.paramMap.get('id') || undefined;
 
     if (this.id) {
       this.getTransactionById();
@@ -144,7 +145,6 @@ export class CreateTransactionsComponent implements OnInit {
   }
 
   redirectToList(): void {
-    /* this.showCreateForm = !this.showCreateForm; */
-    this.routerService.setTransactionPage(TransactionsPagesEnum.LIST);
+    this.router.navigate(['/transacoes']);
   }
 }

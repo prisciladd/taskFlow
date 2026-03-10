@@ -2,26 +2,5 @@
   <div class="page-bar">
     <h3 class="page-title">Transações</h3>
   </div>
-
-  <!-- @if (showCreateForm){
-        <app-create-transactions></app-create-transactions>
-        } @else {
-    <app-list-transactions></app-list-transactions>
-    } -->
-
-  <!-- @if ((page$ | async) === pagesEnum.CREATE) {
-    <app-create-transactions></app-create-transactions>
-    } @else {
-        <app-list-transactions></app-list-transactions>
-        } -->
-
-  @switch( page$ | async){ @case(pagesEnum.CREATE){
-  <app-create-transactions></app-create-transactions>
-  } @case(pagesEnum.LIST){
-  <app-list-transactions
-    (editEmitter)="handleEditTransaction($event)"
-  ></app-list-transactions>
-  } @case(pagesEnum.EDIT){
-  <app-create-transactions [id]="id"></app-create-transactions>
-  } }
+  <app-list-transactions></app-list-transactions>
 </div>

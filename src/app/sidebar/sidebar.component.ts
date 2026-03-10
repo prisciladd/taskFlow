@@ -1,55 +1,52 @@
-import { Component, EventEmitter, inject, OnInit, Output, signal, HostListener, Input } from '@angular/core';
-import { Pages } from '../constants/pages.enum';
+import { Component, HostListener, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
 import { MenuIten } from '../models/menu-item.model';
-import {MatButtonModule} from '@angular/material/button';
-import { RouterService } from '../core/services/router.service';
-import { MatIcon } from "@angular/material/icon";
-
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [MatButtonModule, MatIcon],
+  imports: [MatButtonModule, RouterModule, MatIconModule, MatDividerModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
-export class SidebarComponent{
-
-  /* page!:Pages; */
-  /* @Output() redirectToPageEmitter = new EventEmitter<Pages>(); */
-
-  private readonly routerService = inject(RouterService);
-
+export class SidebarComponent {
   menuItems: MenuIten[] = [
     {
       label: 'Dashboard',
       selected: true,
-      icon: '',
-      page: Pages.DASHBOARD,
+      icon: 'account_balance',
+      page: 'dashboard',
     },
     {
       label: 'Transações',
       selected: false,
-      icon: '',
-      page: Pages.TRANSACTIONS,
+      icon: 'receipt_long',
+      page: 'transacoes',
     },
     {
       label: 'Empréstimos',
       selected: false,
-      icon: '',
-      page: Pages.LOAN,
+      icon: 'payments',
+      page: 'emprestimo',
     },
     {
       label: 'Transferências',
       selected: false,
-      icon: '',
-      page: Pages.TRANSFERS,
+      icon: 'transfer_within_a_station',
+      page: 'transferencia',
     },
   ];
-    
+
   open = signal(false);
 
-  toggle() { this.open.update(v => !v); }
-  close()  { this.open.set(false); }
+  toggle() {
+    this.open.update((v) => !v);
+  }
+  close() {
+    this.open.set(false);
+  }
 
   // fecha automaticamente quando for desktop
   @HostListener('window:resize')
@@ -57,46 +54,7 @@ export class SidebarComponent{
     if (window.innerWidth >= 960 && this.open()) this.open.set(false);
   }
 
-
-  redirectToPage(page: Pages) {
-    
-    this.routerService.setCurrentPage(page);
-
+  redirectToPage() {
     this.close();
-    
-    /* 
-    Usado com @Input @Output
-    this.redirectToPageEmitter.emit(page);
-    */
-}
-
-/* 
-
-COMUNICAÇÃO ENTRE COMPONENTES
-  
-  Do .ts para o template
-    Interpolação de string {{}}
-
-  Pai para filho
-    @Input
-    Property Binding []
-  
-  Filho para pai tem que emitir evento
-    @Output
-    Event Binding () (click)=""
-
-  Pai para filho & Filho para pai
-    two-way binding [()]
-
-  Irmãos
-    Estado centralizado (services ou ngrx)
-
-    Exercício: fazer demais components e comunicações
-
-    DashboardComponent
-    TransactionListComponent
-    TransferComponent
-    CreditSimulatorComponent
-    ProfileComponent
-*/
+  }
 }

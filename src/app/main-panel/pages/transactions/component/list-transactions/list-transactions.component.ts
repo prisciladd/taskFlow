@@ -1,82 +1,79 @@
-import { Component, EventEmitter, inject, model, OnInit, Output, signal } from '@angular/core';
-import { TransactionsService } from '../../services/transactions.service';
-import { Transaction } from '../../../dashboard/models/transaction.model';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { NegativeValuesPipe } from '../../../../../shared/pipes/negative-values.pipe';
-import { RouterService } from '../../../../../core/services/router.service';
-import { TransactionsPagesEnum } from '../../constants/transaction-pages.enum';
-import { first } from 'rxjs';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router, RouterModule } from '@angular/router';
+import { first } from 'rxjs';
 import { DeleteConfirmationComponent } from '../../../../../delete-confirmation/delete-confirmation.component';
+import { NegativeValuesPipe } from '../../../../../shared/pipes/negative-values.pipe';
+import { Transaction } from '../../../dashboard/models/transaction.model';
+import { TransactionsPagesEnum } from '../../constants/transaction-pages.enum';
+import { TransactionsService } from '../../services/transactions.service';
 
 @Component({
   selector: 'app-list-transactions',
-  imports: [DatePipe, CurrencyPipe, NegativeValuesPipe],
+  imports: [DatePipe, CurrencyPipe, NegativeValuesPipe, RouterModule /*  */],
   templateUrl: './list-transactions.component.html',
-  styleUrl: './list-transactions.component.css'
+  styleUrl: './list-transactions.component.css',
 })
-export class ListTransactionsComponent implements OnInit{
-
+export class ListTransactionsComponent implements OnInit {
   private readonly transactionService = inject(TransactionsService);
-  private readonly routerService = inject(RouterService);
-  
-  @Output() editEmitter = new EventEmitter<string>()
+  private readonly router = inject(Router);
 
-  transactions?:Transaction[];
+  @Output() editEmitter = new EventEmitter<string>();
+
+  transactions?: Transaction[];
   readonly dialog = inject(MatDialog);
 
-
-  /* showCreateForm = false; */
-  
   ngOnInit(): void {
     this.getTransactions();
   }
-  
+
   openDialog(): void {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-     /*  data: {name: this.name(), animal: this.animal()}, */
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
       if (result !== undefined) {
-        /* this.animal.set(result); */
       }
     });
   }
 
-
-  getTransactions():void{
-    this.transactionService.readTransaction().pipe(first()).subscribe({
-      next: (res) => {
-        this.transactions = res;
-      },
-      error: (err) => {
-        console.log("Erro ao buscar dados das transações na api",err);
-      },    
-   });
+  getTransactions(): void {
+    this.transactionService
+      .readTransaction()
+      .pipe(first())
+      .subscribe({
+        next: (res) => {
+          this.transactions = res;
+        },
+        error: (err) => {
+          console.log('Erro ao buscar dados das transações na api', err);
+        },
+      });
   }
 
   redirectToCreate(): void {
-    /* this.showCreateForm = !this.showCreateForm; */
-    this.routerService.setTransactionPage(TransactionsPagesEnum.CREATE);
+    this.router.navigate(['transacoes/criar'])
   }
 
-  onEdit(id: string):void{
-    this.editEmitter.emit(id);
+  onEdit(id: string): void {
+    console.log("esto no onEdit");
+    
+    this.router.navigate([`transacoes/editar/${id}`])
   }
 
-  onDelete(id: string):void{
-    this.transactionService.deleteTransaction(id).pipe(first()).subscribe({
-      next: () => {
-        this.getTransactions();
-      },
-      error: (err) => {
-        console.log("Erro ao deletar dados das transações na api",err);
-      },    
-   });
-   
+  onDelete(id: string): void {
+    this.transactionService
+      .deleteTransaction(id)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.getTransactions();
+        },
+        error: (err) => {
+          console.log('Erro ao deletar dados das transações na api', err);
+        },
+      });
   }
-
-  
 }

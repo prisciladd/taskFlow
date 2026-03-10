@@ -1,54 +1,62 @@
 <!-- list-transactions.component.html -->
 <div class="p-3">
-
   <div class="d-flex justify-content-end pb-3">
-    <button class="btn btn-primary" (click)="redirectToCreate()">Adicionar transação +</button>
+    <button class="btn btn-primary" (click)="redirectToCreate()">
+      Adicionar transação +
+    </button>
   </div>
 
   <!-- Modo tabela (desktop/tablet) -->
   <div class="table-responsive d-none d-md-block">
     <table class="table table-striped align-middle">
+      @if(transactions){
       <thead>
         <tr>
           <th scope="col">Data</th>
           <th scope="col">Descrição</th>
           <th scope="col">Valor</th>
           <th scope="col">Tipo</th>
-          <th scope="col" >Ações</th>
+          <th scope="col">Ações</th>
         </tr>
       </thead>
       <tbody>
         @for (item of transactions; track $index) {
-          <tr>
-            <td>{{ item.date | date : 'dd/MM/YYYY' }}</td>
-            <td >{{ item.description }}</td>
-            <td [class]="item.type | negativeValues">
-              {{ item.amount | currency }}
-            </td>
-            <!-- <td>{{ item.type === 'income' ? 'Entrada' : 'Saída' }}</td> -->
-             <td>
-              @switch(item.type){
-                @case('income'){
-                  'Entrada'
-                }
-                @case('expense'){
-                  'Saída'
-                }
-                @case('transfer'){
-                  'Transferência'
-                }
-                @case('loan'){
-                  'Empréstimo'
-                }
-              }
-             </td>
-            <td >
-              <button class="btn btn-sm btn-outline-primary me-2" (click)="onEdit(item.id)">Editar</button>
-              <button class="btn btn-sm btn-outline-danger" (click)="openDialog()">Excluir</button>
-            </td>
-          </tr>
+        <tr>
+          <td>{{ item.date | date : "dd/MM/YYYY" }}</td>
+          <td>{{ item.description }}</td>
+          <td [class]="item.type | negativeValues">
+            {{ item.amount | currency }}
+          </td>
+          <td>
+            @switch(item.type){ @case('income'){ 'Entrada' } @case('expense'){
+            'Saída' } @case('transfer'){ 'Transferência' } @case('loan'){
+            'Empréstimo' } }
+          </td>
+          <td>
+            <button
+              class="btn btn-sm btn-outline-primary me-2"
+              (click)="onEdit(item.id)"
+            >
+              Editar
+            </button>
+            <button
+              class="btn btn-sm btn-outline-danger"
+              (click)="openDialog()"
+            >
+              Excluir
+            </button>
+          </td>
+        </tr>
         }
       </tbody>
+      }@else{
+      <thead></thead>
+      <tbody>
+        <tr>
+          <td>Não existem transações para listar</td>
+        </tr>
+      </tbody>
+      }
     </table>
   </div>
 
@@ -56,42 +64,52 @@
   <div class="d-md-none">
     <div class="txn-card-list">
       @for (item of transactions; track $index) {
-        <article class="txn-card" role="group" aria-label="Transação">
-          <header class="txn-head">
-            <span class="txn-date">{{ item.date | date : 'dd/MM/YYYY' }}</span>
-            <span class="txn-type badge" [class.badge-success]="item.type==='income' || item.type==='loan'" [class.badge-danger]="item.type==='expense' || item.type==='transfer'">
-              <!-- {{ item.type === 'income' ? 'Entrada' : 'Saída' }} -->
-              @switch(item.type){
-                @case('income'){
-                  Entrada
-                }
-                @case('expense'){
-                  Saída
-                }
-                @case('transfer'){
-                  Transferência
-                }
-                @case('loan'){
-                  Empréstimo
-                }
-              }
-            </span>
-          </header>
+      <address class="txn-card" role="group" aria-label="Transação">
+        <header class="txn-head">
+          <span class="txn-date">{{ item.date | date : "dd/MM/YYYY" }}</span>
+          <span
+            class="txn-type badge"
+            [class.badge-success]="
+              item.type === 'income' || item.type === 'loan'
+            "
+            [class.badge-danger]="
+              item.type === 'expense' || item.type === 'transfer'
+            "
+          >
+            @switch(item.type){ @case('income'){ Entrada } @case('expense'){
+            Saída } @case('transfer'){ Transferência } @case('loan'){ Empréstimo
+            } }
+          </span>
+        </header>
 
-          <p class="txn-desc">{{ item.description }}</p>
+        <p class="txn-desc">{{ item.description }}</p>
 
-          <div class="txn-footer">
-            <span class="txn-amount" [class.negative]="item.type==='expense' || item.type==='transfer'">
-              {{ item.amount | currency }}
-            </span>
-            <div class="txn-actions">
-              <button class="btn btn-sm btn-outline-primary" (click)="onEdit(item.id)">Editar</button>
-              <button class="btn btn-sm btn-outline-danger" (click)=" openDialog()">Excluir</button>
-            </div>
+        <div class="txn-footer">
+          <span
+            class="txn-amount"
+            [class.negative]="
+              item.type === 'expense' || item.type === 'transfer'
+            "
+          >
+            {{ item.amount | currency }}
+          </span>
+          <div class="txn-actions">
+            <button
+              class="btn btn-sm btn-outline-primary"
+              (click)="onEdit(item.id)"
+            >
+              Editar
+            </button>
+            <button
+              class="btn btn-sm btn-outline-danger"
+              (click)="openDialog()"
+            >
+              Excluir
+            </button>
           </div>
-        </article>
+        </div>
+      </address>
       }
     </div>
   </div>
-
 </div>

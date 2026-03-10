@@ -17,6 +17,7 @@
 <div
   class="sidebar-backdrop"
   [class.open]="open()"
+  onkeypress="open()"
   (click)="close()"
   aria-hidden="true"
 ></div>
@@ -30,9 +31,12 @@
   @for (item of menuItems; track $index) {
   <button
     class="sidebar-item"
-    mat-raised-button
-    (click)="redirectToPage(item.page)"
+    matFab
+    extended
+    (click)="redirectToPage()"
+    [routerLink]="`/${item.page}`"
   >
+    <mat-icon>{{ item.icon }}</mat-icon>
     {{ item.label }}
   </button>
   }

@@ -1,42 +1,10 @@
-import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { TransactionsComponent } from './pages/transactions/transactions.component';
-import { Pages } from '../constants/pages.enum';
-import { LoanComponent } from './pages/loan/loan.component';
-import { TransfersComponent } from './pages/transfers/transfers.component';
-import { RouterService } from '../core/services/router.service';
-import { first } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-main-panel',
-  imports: [
-    DashboardComponent,
-    TransactionsComponent,
-    LoanComponent,
-    TransfersComponent,
-  ],
+  imports: [RouterModule],
   templateUrl: './main-panel.component.html',
   styleUrl: './main-panel.component.css',
 })
-export class MainPanelComponent implements OnInit {
-  /* @Input() page:Pages = Pages.DASHBOARD; */
-  private readonly routerService = inject(RouterService); // em vez do construtor
-  private readonly destroyRef = inject(DestroyRef);
-
-  page!: Pages;
-  pagesEnum = Pages;
-  pageActive!: Pages;
-
-  /* constructor(private readonly routerService: RouterService){} */
-
-  ngOnInit() {
-    /* this.routerService.pageOn$.pipe(first()).subscribe(page => { */ //subscribe tem até 3 callback next, error, complete. Pipe first para retornar só 1 resutado da api. Take until destroyed fica escutando até o componente ser destruído.
-    this.routerService.pageOn$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((page) => {
-        //Take until destroyed fica escutando até o componente ser destruído.
-        this.pageActive = page;
-      });
-  }
-}
+export class MainPanelComponent {}

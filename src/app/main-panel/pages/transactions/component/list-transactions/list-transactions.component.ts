@@ -6,12 +6,11 @@ import { first } from 'rxjs';
 import { DeleteConfirmationComponent } from '../../../../../delete-confirmation/delete-confirmation.component';
 import { NegativeValuesPipe } from '../../../../../shared/pipes/negative-values.pipe';
 import { Transaction } from '../../../dashboard/models/transaction.model';
-import { TransactionsPagesEnum } from '../../constants/transaction-pages.enum';
 import { TransactionsService } from '../../services/transactions.service';
 
 @Component({
   selector: 'app-list-transactions',
-  imports: [DatePipe, CurrencyPipe, NegativeValuesPipe, RouterModule /*  */],
+  imports: [DatePipe, CurrencyPipe, NegativeValuesPipe, RouterModule ],
   templateUrl: './list-transactions.component.html',
   styleUrl: './list-transactions.component.css',
 })
@@ -21,7 +20,7 @@ export class ListTransactionsComponent implements OnInit {
 
   @Output() editEmitter = new EventEmitter<string>();
 
-  transactions?: Transaction[];
+  transactions: Transaction[]=[];
   readonly dialog = inject(MatDialog);
 
   ngOnInit(): void {
@@ -35,6 +34,7 @@ export class ListTransactionsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
       if (result !== undefined) {
+        console.log("Resultado não deu undefined");
       }
     });
   }
@@ -58,7 +58,7 @@ export class ListTransactionsComponent implements OnInit {
   }
 
   onEdit(id: string): void {
-    console.log("esto no onEdit");
+    console.log("estou no onEdit");
     
     this.router.navigate([`transacoes/editar/${id}`])
   }

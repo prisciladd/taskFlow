@@ -1,190 +1,55 @@
 {
   "account": {
     "id": 1,
-    "name": "Priscila"
+    "name": "Priscila",
+    "balance": 5230.75
   },
   "transactions": [
     {
-      "id": "023c",
-      "date": "2026-4-3",
-      "description": "Salário",
-      "amount": "4100",
-      "type": "income"
-    },
-    {
-      "id": "67c3",
-      "date": "2026-4-3",
-      "description": "Banho Pet",
+      "id": "804e",
+      "date": "2026-03-02T03:00:00.000Z",
+      "description": "banho pet",
       "amount": "150",
       "type": "expense"
     },
     {
-      "id": "68c9",
-      "date": "2026-03-06T03:00:00.000Z",
-      "description": "Pagar dívidas",
-      "amount": "1200",
+      "id": "a9c9",
+      "date": "2026-03-17T03:00:00.000Z",
+      "description": "boleto",
+      "amount": "400",
       "type": "expense"
     },
     {
-      "date": "2026-04-16T03:00:00.000Z",
-      "description": "Receber empréstimo",
-      "amount": "1500",
-      "type": "income",
-      "id": "1837"
+      "id": "94ae",
+      "date": "2026-03-13T03:00:00.000Z",
+      "description": "aaaaa",
+      "amount": "100",
+      "type": "income"
     },
     {
-      "date": "2026-03-24T03:00:00.000Z",
-      "description": "boleto",
-      "amount": "34234",
-      "type": "expense",
-      "id": "7a8a"
+      "id": "3395",
+      "date": "2026-03-02T03:00:00.000Z",
+      "description": "aaaaa",
+      "amount": "10",
+      "type": "income"
     },
     {
-      "id": "d24a",
-      "account": "12345-6",
-      "value": "10",
-      "description": "Boleto mercado pago",
-      "type": "transfer"
+      "id": "75bd",
+      "date": "2026-03-18T03:00:00.000Z",
+      "description": "aaaaa",
+      "amount": "10",
+      "type": "income"
     },
     {
-      "id": "ded7",
-      "account": "1234-6",
-      "date": "2026-03-09T03:00:00.000Z",
-      "value": "12",
-      "description": "teste",
-      "type": "transfer"
-    },
-    {
-      "id": "f01c",
-      "account": "1234-5",
-      "date": "2026-03-10T03:00:00.000Z",
-      "amount": "25",
-      "description": "teste 2",
-      "type": "transfer"
-    },
-    {
-      "id": "",
-      "amount": 1000,
-      "installments": 12,
-      "monthlyRatePercent": 2.4,
-      "date": "2026-9-3",
-      "description": "",
-      "type": "loan"
-    },
-    {
-      "id": "",
-      "amount": 3000,
-      "installments": 12,
-      "monthlyRatePercent": 2.4,
-      "date": "2026-03-09T03:00:00.000Z",
-      "description": "",
-      "type": "loan"
-    },
-    {
-      "id": "",
-      "amount": 3000,
-      "installments": 12,
-      "monthlyRatePercent": 2.4,
-      "date": "2026-03-09T03:00:00.000Z",
-      "description": "",
-      "type": "loan"
+      "id": "99e5",
+      "date": "2026-03-11T03:00:00.000Z",
+      "description": "aaaaa",
+      "amount": "10",
+      "type": "expense"
     }
   ],
-  "transfers": [
-    {
-      "id": "b7f7",
-      "account": "12",
-      "amount": null,
-      "description": null
-    },
-    {
-      "id": "b7ed",
-      "account": "12345-6",
-      "amount": "100,00",
-      "description": "Gás"
-    },
-    {
-      "id": "fd3a",
-      "account": "4009-4",
-      "value": "13246-2",
-      "description": "Pagar cartão de crédito",
-      "type": "transfer"
-    },
-    {
-      "id": "cae5",
-      "account": "4009-4",
-      "value": "13246-2",
-      "description": "38.50",
-      "type": "transfer"
-    },
-    {
-      "id": "e5c0",
-      "account": "12345-6",
-      "value": "10",
-      "description": "Boleto mercado pago",
-      "type": "transfer"
-    },
-    {
-      "id": "db62",
-      "account": "1234-6",
-      "date": "2026-03-09T03:00:00.000Z",
-      "value": "12",
-      "description": "teste",
-      "type": "transfer"
-    },
-    {
-      "id": "50a2",
-      "account": "1234-5",
-      "date": "2026-03-10T03:00:00.000Z",
-      "amount": "25",
-      "description": "teste 2",
-      "type": "transfer"
-    }
-  ],
-  "loans": [
-    {
-      "id": "f049",
-      "amount": 3000,
-      "installments": 12,
-      "monthlyRate": 0.024
-    },
-    {
-      "id": "9c10",
-      "amount": 1000,
-      "installments": 12,
-      "monthlyRate": 0.024
-    },
-    {
-      "id": "b998",
-      "amount": 1000,
-      "installments": 12,
-      "monthlyRate": 0.024
-    },
-    {
-      "id": "a65d",
-      "amount": 1000,
-      "installments": 12,
-      "monthlyRate": 0.024
-    },
-    {
-      "id": "507e",
-      "amount": 1000,
-      "installments": 12,
-      "monthlyRate": 0.024
-    },
-    {
-      "id": "7122",
-      "amount": 3000,
-      "installments": 12,
-      "monthlyRate": 0.024
-    },
-    {
-      "id": "",
-      "amount": 3000,
-      "installments": 12,
-      "monthlyRate": 0.024
-    }
-  ],
+  "transfers": [],
+  "loans": [],
   "rates": {
     "personalLoanMonthlyRate": 2.4
   }

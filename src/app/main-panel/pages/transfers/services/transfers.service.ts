@@ -11,8 +11,8 @@ export class TransfersService {
 
   apiUrl = 'http://localhost:3000';
 
-  createTransfer(transfer: Transfer): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/transfers`, transfer);
+  createTransfer(transfer: Transfer): Observable<Transfer> {
+    return this.http.post<Transfer>(`${this.apiUrl}/transfers`, transfer);
   }
 
   readTransfers(): Observable<Transfer> {

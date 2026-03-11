@@ -1,64 +1,63 @@
-import { Component, inject, OnInit,signal,effect } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
+import { AsyncPipe, CurrencyPipe } from '@angular/common';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { DashboardService } from './services/dashboard.service';
-import { Account } from './models/account.model';
-import { TransactionsService } from '../transactions/services/transactions.service';
-import { Transaction } from './models/transaction.model';
 import { first } from 'rxjs';
+import { AccountStore } from '../loan/services/account.store';
+import { TransactionsService } from '../transactions/services/transactions.service';
 import { Transfer } from '../transfers/models/transfer.model';
 import { TransfersService } from '../transfers/services/transfers.service';
-import { AccountStore } from '../loan/services/account.store';
-import { AsyncPipe } from '@angular/common';
+import { CreditCardInvoiceComponent } from './components/credit-card-invoice/credit-card-invoice.component';
+import { Transaction } from './models/transaction.model';
+import { Account } from './models/account.model';
 
-import { CreditCardInvoiceComponent } from "./components/credit-card-invoice/credit-card-invoice.component";
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MatCard, MatCardContent, CurrencyPipe, AsyncPipe, CreditCardInvoiceComponent],
+  imports: [
+    MatCard,
+    MatCardContent,
+    CurrencyPipe,
+    CreditCardInvoiceComponent,
+    AsyncPipe
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements OnInit {
-  private readonly dashbordService = inject(DashboardService);
+
   private readonly transactionService = inject(TransactionsService);
   private readonly transferService = inject(TransfersService);
-  private readonly accountStore = inject(AccountStore);
+  private readonly accountService = inject(AccountStore);
 
+  account?: Account;
   totalReceita: number = 0;
   totalDespesa: number = 0;
   saldoPeriodo: number = 0;
-  balance$ = this.accountStore.balance$;
-  acount?: Account;
+  balance$ = this.accountService.balance$;
+  balanceAtual: number = 0;
   transaction?: Transaction[];
   transactions: Transaction[] = [];
   transfers?: Transfer;
-  isBalanceVisible=signal(true)
+  isBalanceVisible = signal(true);
 
   ngOnInit(): void {
     this.getAccount();
     this.getTransactions();
   }
-  
-  constructor(){
 
-    effect(() =>{
-      console.log("Mudou para",this.isBalanceVisible());
-      
+  constructor() {
+    effect(() => {
+      console.log('Mudou para', this.isBalanceVisible());
     });
   }
-
-  toggleBalance():void{
-    this.isBalanceVisible.update((visible) => !visible)
-  }
-
+  
   getAccount(): void {
-    this.dashbordService
+    this.accountService
       .getAccount()
       .pipe(first())
       .subscribe({
         next: (res) => {
-          this.acount = res;
+          this.account = res;
         },
         error: (err) => {
           console.log('Erro ao buscar dados da conta na api', err);
@@ -66,6 +65,10 @@ export class DashboardComponent implements OnInit {
       });
   }
 
+  toggleBalance(): void {
+    this.isBalanceVisible.update((visible) => !visible);
+  }
+  
   getTransactions(): void {
     this.transactionService
       .readTransaction()
@@ -81,8 +84,8 @@ export class DashboardComponent implements OnInit {
   }
 
   getTransfer(): void {
-    this.transferService.readTransfers()
-      
+    this.transferService
+      .readTransfers()
       .pipe(first())
       .subscribe({
         next: (res) => {
@@ -92,21 +95,5 @@ export class DashboardComponent implements OnInit {
           console.log('Erro ao buscar dados da transferência na api', err);
         },
       });
-  }
-
-  calcBalance(): void {
-    this.transactions.forEach((item) => {
-      if (item.type == 'income') {
-        this.totalReceita += item.amount;
-        /* this.transaction.reduce((acc,item) => acc + Number(item.amount),0); */
-      }
-      if (item.type == 'expense') {
-        this.totalDespesa += item.amount;
-      }
-      if (item.type == 'transfer') {
-        /* this.acount?.balance -= this.transfers?.amount */
-      }
-      this.saldoPeriodo = this.totalReceita - this.totalDespesa;
-    });
   }
 }

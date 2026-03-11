@@ -22,22 +22,4 @@ registerLocaleData(ptBr);
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent implements OnInit {
-  /* Com Observable */
-
-  obs = new Observable((observer) => {});
-
-  ngOnInit() {
-    this.obs.subscribe({
-      next: (res) => {
-        console.log(res);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-      complete: () => {
-        console.log('Finalizou');
-      },
-    });
-  }
-}
+export class AppComponent {}

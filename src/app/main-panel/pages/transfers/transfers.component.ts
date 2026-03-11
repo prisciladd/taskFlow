@@ -22,6 +22,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatButtonModule} from '@angular/material/button';
 import { TransactionsService } from '../transactions/services/transactions.service';
 import { Transaction } from '../dashboard/models/transaction.model';
+import { AccountStore } from '../loan/services/account.store';
 
 
 @Component({
@@ -47,6 +48,7 @@ export class TransfersComponent implements OnInit {
   private readonly transferService = inject(TransfersService);
   private readonly transactionService = inject(TransactionsService);
   private readonly _snackBar = inject(MatSnackBar);
+  private readonly accountStore = inject(AccountStore);
 
   ngOnInit(): void {
     this.buildForm();
@@ -76,9 +78,12 @@ export class TransfersComponent implements OnInit {
       .createTransfer(payload)
       .pipe(first())
       .subscribe({
-        next: () => {
-          this.openSnackBar('Transferência realizada!','OK');
-        },
+        next: (res) => {
+          this.accountStore.debit(
+            payload.amount,`Débito de transferência #${res.id} (${payload.description}x)`,);
+
+            this.openSnackBar('Transferência realizada!','OK');
+          },
         error: (err) => {
           console.log('Erro ao gravar dados da transferência na api', err);
         },

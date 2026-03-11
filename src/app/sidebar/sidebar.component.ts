@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { MenuIten } from '../models/menu-item.model';
 import { MatDividerModule } from '@angular/material/divider';
+import { Pages } from '../constants/pages.enum';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,31 +18,31 @@ export class SidebarComponent {
       label: 'Dashboard',
       selected: true,
       icon: 'account_balance',
-      page: 'dashboard',
+      page: Pages.DASHBOARD,
     },
     {
       label: 'Transações',
       selected: false,
       icon: 'receipt_long',
-      page: 'transacoes',
+      page: Pages.TRANSACTIONS,
     },
     {
       label: 'Empréstimos',
       selected: false,
       icon: 'payments',
-      page: 'emprestimo',
+      page: Pages.LOAN,
     },
     {
       label: 'Transferências',
       selected: false,
       icon: 'transfer_within_a_station',
-      page: 'transferencia',
+      page: Pages.TRANSFERS,
     },
     {
       label: 'Perfil',
       selected: false,
       icon: 'person',
-      page: 'perfil',
+      page: Pages.PROFILE,
     }
   ];
 

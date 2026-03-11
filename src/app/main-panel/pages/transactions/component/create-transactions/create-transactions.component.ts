@@ -19,6 +19,7 @@ import { first } from 'rxjs';
 import { TransactionTypes } from '../../../../../constants/transactions-types.enum';
 import { Transaction } from '../../../dashboard/models/transaction.model';
 import { TransactionsService } from '../../services/transactions.service';
+import { AccountStore } from '../../../loan/services/account.store';
 
 @Component({
   selector: 'app-create-transactions',
@@ -42,6 +43,7 @@ export class CreateTransactionsComponent implements OnInit {
   private readonly transactionService = inject(TransactionsService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly accountStore = inject(AccountStore);
 
   @Input() id?: string;
 
@@ -90,6 +92,8 @@ export class CreateTransactionsComponent implements OnInit {
       return;
     }
     this.saveTransaction(payload);
+    console.log(payload);
+    
   }
 
   dateRangeValidator(minDate: Date, maxDate: Date): ValidatorFn {
@@ -121,8 +125,13 @@ export class CreateTransactionsComponent implements OnInit {
       .createTransaction(payload)
       .pipe(first())
       .subscribe({
-        next: () => {
+        next: (res) => {
           this.redirectToList();
+
+          this.accountStore.credit(
+            payload.amount,
+            `Crédito de transação entrada #${res.id} (${payload.description}x)`,
+          );
         },
         error: (err) => {
           console.log('Erro ao salvar dados da transação na api', err);

@@ -1,4 +1,4 @@
-<h3>Bem vindo, {{ acount?.name }} !</h3>
+<h3>Bem vindo, {{ account?.name }} !</h3>
 
 <div class="cards-container-full">
   <mat-card class="cards-full" appearance="raised">
@@ -6,7 +6,7 @@
       <p>Saldo disponível</p>
       @if (isBalanceVisible()) {
         <strong>{{
-          balance$ | async | currency: "BRL" : "symbol-narrow" : "1.2-2"
+          balance$ | async | currency
         }}</strong>
       } @else {
         R$ ***********

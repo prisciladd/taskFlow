@@ -6,26 +6,22 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TransactionTypes } from '../../../../../constants/transactions-types.enum';
-import { first, map, startWith } from 'rxjs';
-import { LoanService } from '../../services/loan.service';
-import { TransactionsService } from '../../../transactions/services/transactions.service';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import {
-  MatFormField,
-  MatLabel,
-  MatInputModule,
-} from '@angular/material/input';
-import {
-  MatDatepickerModule,
-  MatDatepickerInput,
-  MatDatepickerToggle,
   MatDatepicker,
+  MatDatepickerModule
 } from '@angular/material/datepicker';
-import {provideNativeDateAdapter} from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { LoanSimulationResult } from '../../models/loan.model';
+import {
+  MatInputModule
+} from '@angular/material/input';
+import { first, map, startWith } from 'rxjs';
+import { TransactionTypes } from '../../../../../constants/transactions-types.enum';
 import { Transaction } from '../../../dashboard/models/transaction.model';
+import { TransactionsService } from '../../../transactions/services/transactions.service';
+import { LoanSimulationResult } from '../../models/loan.model';
 import { AccountStore } from '../../services/account.store';
+import { LoanService } from '../../services/loan.service';
 
 @Component({
   selector: 'app-loan-simulator',
@@ -53,6 +49,7 @@ export class LoanSimulatorComponent {
   transactionTypesEnum = TransactionTypes;
   loading = signal(false);
   apiError = signal<string | null>(null);
+  balance$ = this.accountStore.balance$;
 
   form = this.fb.group({
     amount: this.fb.control(3000, {
@@ -96,7 +93,7 @@ export class LoanSimulatorComponent {
       },
       error: () => {
         // Se a API falhar, mantemos o valor default e mostramos aviso opcional
-        // this.apiError.set('Não foi possível carregar taxa padrão. Use a taxa manualmente.');
+        this.apiError.set('Não foi possível carregar taxa padrão. Use a taxa manualmente.');
       },
     });
   }

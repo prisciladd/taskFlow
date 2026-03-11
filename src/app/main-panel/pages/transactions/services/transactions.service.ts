@@ -20,8 +20,8 @@ export class TransactionsService {
     return this.http.get<Transaction>(`${this.apiUrl}/transactions/${id}`)
   }
 
-  createTransaction(transaction: Transaction): Observable<void>{
-    return this.http.post<void>(`${this.apiUrl}/transactions`, transaction)
+  createTransaction(transaction: Transaction): Observable<Transaction>{
+    return this.http.post<Transaction>(`${this.apiUrl}/transactions`, transaction)
   }
 
   updateTransaction(transaction: Transaction, id:string): Observable<void>{

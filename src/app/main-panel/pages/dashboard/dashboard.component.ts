@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit,signal,effect } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { DashboardService } from './services/dashboard.service';
@@ -11,9 +11,11 @@ import { TransfersService } from '../transfers/services/transfers.service';
 import { AccountStore } from '../loan/services/account.store';
 import { AsyncPipe } from '@angular/common';
 
+import { CreditCardInvoiceComponent } from "./components/credit-card-invoice/credit-card-invoice.component";
+
 @Component({
   selector: 'app-dashboard',
-  imports: [MatCard, MatCardContent, CurrencyPipe,AsyncPipe],
+  imports: [MatCard, MatCardContent, CurrencyPipe, AsyncPipe, CreditCardInvoiceComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -31,10 +33,23 @@ export class DashboardComponent implements OnInit {
   transaction?: Transaction[];
   transactions: Transaction[] = [];
   transfers?: Transfer;
+  isBalanceVisible=signal(true)
 
   ngOnInit(): void {
     this.getAccount();
     this.getTransactions();
+  }
+  
+  constructor(){
+
+    effect(() =>{
+      console.log("Mudou para",this.isBalanceVisible());
+      
+    });
+  }
+
+  toggleBalance():void{
+    this.isBalanceVisible.update((visible) => !visible)
   }
 
   getAccount(): void {

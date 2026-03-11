@@ -4,7 +4,19 @@
   <mat-card class="cards-full" appearance="raised">
     <mat-card-content>
       <p>Saldo disponível</p>
-      <strong>{{ (balance$ | async) | currency:'BRL':'symbol-narrow':'1.2-2' }}</strong>
+      @if (isBalanceVisible()) {
+        <strong>{{
+          balance$ | async | currency: "BRL" : "symbol-narrow" : "1.2-2"
+        }}</strong>
+      } @else {
+        R$ ***********
+      }
+      <div>
+
+        <button type="button" class="btn btn-primary" (click)="toggleBalance()">
+          {{ isBalanceVisible() ? "Esconder saldo" : "Exibir saldo" }}
+        </button>
+      </div>
       <div class="cards-container">
         <p>Agência 0001</p>
         <p>Conta 123456-7</p>
@@ -15,20 +27,37 @@
 
 <div class="cards-container">
   <mat-card class="cards" appearance="outlined">
-      <mat-card-content> Receitas (mês)
-        <p>{{this.totalReceita | currency}}</p>
-      </mat-card-content>
-  </mat-card>
-
-  <mat-card class="cards" appearance="outlined">
-    <mat-card-content> Despesas (mês)
-      <p>{{this.totalDespesa | currency}}</p>
+    <mat-card-content>
+      Receitas (mês)
+      <p>{{ this.totalReceita | currency }}</p>
     </mat-card-content>
   </mat-card>
 
   <mat-card class="cards" appearance="outlined">
-    <mat-card-content> Saldo do período 
-      <p>{{this.saldoPeriodo | currency}}</p>
+    <mat-card-content>
+      Despesas (mês)
+      <p>{{ this.totalDespesa | currency }}</p>
     </mat-card-content>
   </mat-card>
+
+  <mat-card class="cards" appearance="outlined">
+    <mat-card-content>
+      Saldo do período
+      <p>{{ this.saldoPeriodo | currency }}</p>
+    </mat-card-content>
+  </mat-card>
+
+  @defer (on interaction(loadButton)) {
+    <app-credit-card-invoice></app-credit-card-invoice>
+  }
+  @placeholder {
+    <div #loadButton class="loading-placeholder" style="color: goldenrod; cursor: pointer;" >
+      Clique para ver a fatura do cartão de crédito
+    </div>
+  }
+  @loading (minimum 2s) {
+    <div class="loading-placeholder" style="color: goldenrod;">
+      Carregando fatura do cartão de crédito...
+    </div>
+  }
 </div>

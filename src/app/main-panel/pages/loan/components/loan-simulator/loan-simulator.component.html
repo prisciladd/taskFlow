@@ -1,0 +1,86 @@
+<div class="loan__content">
+    <form [formGroup]="form" class="loan__form" (ngSubmit)="(0)">
+      <!-- Data do empréstimo -->
+      <mat-form-field appearance="outline">
+        <mat-label>Data da transferência</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date" />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Valor do empréstimo</mat-label>
+        <input matInput placeholder="12345-6" formControlName="amount" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nº de parcelas</mat-label>
+        <input matInput placeholder="12345-6" formControlName="installments" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Taxa de juros (a.m)</mat-label>
+        <input
+          matInput
+          placeholder="12345-6"
+          formControlName="monthlyRatePercent"
+        />
+      </mat-form-field>
+
+      <div class="actions">
+        <!-- O botão manda o simulation atual para contratar() -->
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="!canSubmit"
+          (click)="onContratar()"
+        >
+          @if (!loading()) {
+            Contratar
+          }
+          @if (loading()) {
+            <span class="spinner"></span> Processando...
+          }
+        </button>
+      </div>
+
+      @if (apiError()) {
+        <div class="api-error">{{ apiError() }}</div>
+      }
+    </form>
+
+    <section class="loan__summary">
+      <h3>Resumo da Simulação</h3>
+      @let sim = simulation$ | async;
+      @if (sim) {
+        <div class="cards">
+          <article class="card">
+            <span>Parcela (estimada)</span>
+            <strong>{{
+              sim.monthlyPayment | currency: "BRL" : "symbol-narrow" : "1.2-2"
+            }}</strong>
+          </article>
+
+          <article class="card">
+            <span>Total a pagar</span>
+            <strong>{{
+              sim.total | currency: "BRL" : "symbol-narrow" : "1.2-2"
+            }}</strong>
+          </article>
+
+          <article class="card">
+            <span>Juros totais</span>
+            <strong class="muted">{{
+              sim.totalInterest | currency: "BRL" : "symbol-narrow" : "1.2-2"
+            }}</strong>
+          </article>
+        </div>
+
+        <p class="footnote">* Cálculo pelo sistema PRICE. Valores estimados.</p>
+      }
+    </section>
+  </div>
+

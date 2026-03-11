@@ -37,6 +37,12 @@ export class SidebarComponent {
       icon: 'transfer_within_a_station',
       page: 'transferencia',
     },
+    {
+      label: 'Perfil',
+      selected: false,
+      icon: 'person',
+      page: 'perfil',
+    }
   ];
 
   open = signal(false);

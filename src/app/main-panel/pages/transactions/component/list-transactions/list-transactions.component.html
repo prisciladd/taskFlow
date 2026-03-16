@@ -20,7 +20,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (item of transactions; track $index) {
+        @for (item of transactions(); track $index) {
         <tr>
           <td>{{ item.date | date : "dd/MM/YYYY" }}</td>
           <td>{{ item.description }}</td>
@@ -63,7 +63,7 @@
   <!-- Modo cards (mobile) -->
   <div class="d-md-none">
     <div class="txn-card-list">
-      @for (item of transactions; track $index) {
+      @for (item of transactions(); track $index) {
       <address class="txn-card" role="group" aria-label="Transação">
         <header class="txn-head">
           <span class="txn-date">{{ item.date | date : "dd/MM/YYYY" }}</span>

@@ -19,7 +19,7 @@ import { first } from 'rxjs';
 import { TransactionTypes } from '../../../../../constants/transactions-types.enum';
 import { Transaction } from '../../../dashboard/models/transaction.model';
 import { TransactionsService } from '../../services/transactions.service';
-import { AccountStore } from '../../../loan/services/account.store';
+import { AccountStore } from '../../../dashboard/services/account.store';
 
 @Component({
   selector: 'app-create-transactions',

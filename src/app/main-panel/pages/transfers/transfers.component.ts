@@ -22,7 +22,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatButtonModule} from '@angular/material/button';
 import { TransactionsService } from '../transactions/services/transactions.service';
 import { Transaction } from '../dashboard/models/transaction.model';
-import { AccountStore } from '../loan/services/account.store';
+import { AccountStore } from '../dashboard/services/account.store';
 
 
 @Component({

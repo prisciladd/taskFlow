@@ -20,7 +20,7 @@ import { TransactionTypes } from '../../../../../constants/transactions-types.en
 import { Transaction } from '../../../dashboard/models/transaction.model';
 import { TransactionsService } from '../../../transactions/services/transactions.service';
 import { LoanSimulationResult } from '../../models/loan.model';
-import { AccountStore } from '../../services/account.store';
+import { AccountStore } from '../../../dashboard/services/account.store';
 import { LoanService } from '../../services/loan.service';
 
 @Component({

@@ -1,6 +1,6 @@
 import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { Component, inject,signal } from '@angular/core';
-import { AccountStore } from './services/account.store';
+import { AccountStore } from '../dashboard/services/account.store';
 import { LoanSimulatorComponent } from "./components/loan-simulator/loan-simulator.component";
 
 @Component({

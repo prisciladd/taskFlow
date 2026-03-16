@@ -2,13 +2,14 @@ import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { first } from 'rxjs';
-import { AccountStore } from '../loan/services/account.store';
+import { AccountStore } from './services/account.store';
 import { TransactionsService } from '../transactions/services/transactions.service';
 import { Transfer } from '../transfers/models/transfer.model';
 import { TransfersService } from '../transfers/services/transfers.service';
 import { CreditCardInvoiceComponent } from './components/credit-card-invoice/credit-card-invoice.component';
 import { Transaction } from './models/transaction.model';
 import { Account } from './models/account.model';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class DashboardComponent implements OnInit {
   private readonly transferService = inject(TransfersService);
   private readonly accountService = inject(AccountStore);
 
-  account?: Account;
+  account= toSignal(this.accountService.getAccount(),{
+    initialValue:{} as Account});  
   totalReceita: number = 0;
   totalDespesa: number = 0;
   saldoPeriodo: number = 0;
@@ -41,7 +43,6 @@ export class DashboardComponent implements OnInit {
   isBalanceVisible = signal(true);
 
   ngOnInit(): void {
-    this.getAccount();
     this.getTransactions();
   }
 
@@ -49,20 +50,6 @@ export class DashboardComponent implements OnInit {
     effect(() => {
       console.log('Mudou para', this.isBalanceVisible());
     });
-  }
-  
-  getAccount(): void {
-    this.accountService
-      .getAccount()
-      .pipe(first())
-      .subscribe({
-        next: (res) => {
-          this.account = res;
-        },
-        error: (err) => {
-          console.log('Erro ao buscar dados da conta na api', err);
-        },
-      });
   }
 
   toggleBalance(): void {

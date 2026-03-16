@@ -8,19 +8,19 @@ import { Transaction } from '../../dashboard/models/transaction.model';
 @Injectable({ providedIn: 'root' })
 export class AccountStore {
   // Comece com algum saldo mockado; pode vir da API em outro momento
-  
+
   private readonly balanceSubject = new BehaviorSubject<number>(5000);
   readonly balance$ = this.balanceSubject.asObservable();
-  
+ 
   private readonly transactionsSubject = new BehaviorSubject<Transaction[]>([]);
   readonly transactions$ = this.transactionsSubject.asObservable();
 
-  private readonly http = inject (HttpClient);
+  private readonly http = inject(HttpClient);
 
-  apiUrl = "http://localhost:3000"
+  apiUrl = 'http://localhost:3000/account';
 
-  getAccount(): Observable<Account>{
-    return this.http.get<Account>(`${this.apiUrl}/account`)
+  getAccount(): Observable<Account> {
+    return this.http.get<Account>(`${this.apiUrl}`);
   }
 
   get currentBalance(): number {
@@ -52,7 +52,7 @@ export class AccountStore {
     this.pushTransaction({
       id: crypto.randomUUID(),
       date: new Date().toISOString(),
-      description:description,
+      description: description,
       amount: -Math.abs(amount), // negativo
       type: TransactionTypes.EXPENSE,
     });

@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Account } from '../main-panel/pages/dashboard/models/account.model';
 import { first } from 'rxjs';
-import { AccountStore } from '../main-panel/pages/loan/services/account.store';
+import { AccountStore } from '../main-panel/pages/dashboard/services/account.store';
 
 @Component({
   selector: 'app-header',

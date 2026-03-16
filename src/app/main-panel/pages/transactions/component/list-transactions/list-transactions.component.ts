@@ -7,60 +7,44 @@ import { DeleteConfirmationComponent } from '../../../../../delete-confirmation/
 import { NegativeValuesPipe } from '../../../../../shared/pipes/negative-values.pipe';
 import { Transaction } from '../../../dashboard/models/transaction.model';
 import { TransactionsService } from '../../services/transactions.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-list-transactions',
-  imports: [DatePipe, CurrencyPipe, NegativeValuesPipe, RouterModule ],
+  imports: [DatePipe, CurrencyPipe, NegativeValuesPipe, RouterModule],
   templateUrl: './list-transactions.component.html',
   styleUrl: './list-transactions.component.css',
 })
-export class ListTransactionsComponent implements OnInit {
-  private readonly transactionService = inject(TransactionsService);
+export class ListTransactionsComponent {
+  private transactionService = inject(TransactionsService);
   private readonly router = inject(Router);
 
   @Output() editEmitter = new EventEmitter<string>();
 
-  transactions: Transaction[]=[];
+  transactions = toSignal(this.transactionService.readTransaction(), {
+    initialValue: [] as Transaction[],
+  });
   readonly dialog = inject(MatDialog);
 
-  ngOnInit(): void {
-    this.getTransactions();
-  }
-
   openDialog(): void {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-    });
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {});
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
       if (result !== undefined) {
-        console.log("Resultado não deu undefined");
+        console.log('Resultado não deu undefined');
       }
     });
   }
 
-  getTransactions(): void {
-    this.transactionService
-      .readTransaction()
-      .pipe(first())
-      .subscribe({
-        next: (res) => {
-          this.transactions = res;
-        },
-        error: (err) => {
-          console.log('Erro ao buscar dados das transações na api', err);
-        },
-      });
-  }
-
   redirectToCreate(): void {
-    this.router.navigate(['transacoes/criar'])
+    this.router.navigate(['transacoes/criar']);
   }
 
   onEdit(id: string): void {
-    console.log("estou no onEdit");
-    
-    this.router.navigate([`transacoes/editar/${id}`])
+    console.log('estou no onEdit');
+
+    this.router.navigate([`transacoes/editar/${id}`]);
   }
 
   onDelete(id: string): void {
@@ -69,7 +53,7 @@ export class ListTransactionsComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          this.getTransactions();
+          this.transactions();
         },
         error: (err) => {
           console.log('Erro ao deletar dados das transações na api', err);

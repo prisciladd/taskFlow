@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ListTransactionsComponent } from "./component/list-transactions/list-transactions.component";
+import { TransactionsPagesEnum } from './constants/transaction-pages.enum';
 
 @Component({
   selector: 'app-transactions',
@@ -18,14 +19,14 @@ import { ListTransactionsComponent } from "./component/list-transactions/list-tr
   styleUrl: './transactions.component.css',
 })
 export class TransactionsComponent {
-  /* private readonly router = inject(Router);
+  private readonly router = inject(Router);
 
   id?: string;
-  /* page$ = this.routerService.getTransactionPage(); 
+  
   pagesEnum = TransactionsPagesEnum;
 
   handleEditTransaction(id: string): void {
     this.id = id;
     this.router.navigate([TransactionsPagesEnum.EDIT]); 
-  }*/
+  }
 }

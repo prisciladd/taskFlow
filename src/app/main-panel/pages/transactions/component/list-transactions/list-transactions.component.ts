@@ -1,5 +1,12 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  OnInit,
+  Output,
+  signal,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
 import { first } from 'rxjs';
@@ -8,6 +15,7 @@ import { NegativeValuesPipe } from '../../../../../shared/pipes/negative-values.
 import { Transaction } from '../../../dashboard/models/transaction.model';
 import { TransactionsService } from '../../services/transactions.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { CreateTransactionsComponent } from '../create-transactions/create-transactions.component';
 
 @Component({
   selector: 'app-list-transactions',
@@ -15,17 +23,18 @@ import { toSignal } from '@angular/core/rxjs-interop';
   templateUrl: './list-transactions.component.html',
   styleUrl: './list-transactions.component.css',
 })
-export class ListTransactionsComponent {
+export class ListTransactionsComponent implements OnInit {
   private transactionService = inject(TransactionsService);
   private readonly router = inject(Router);
 
   @Output() editEmitter = new EventEmitter<string>();
 
-  transactions = toSignal(this.transactionService.readTransaction(), {
-    initialValue: [] as Transaction[],
-  });
+  transactions = signal<Transaction[]>([]);
   readonly dialog = inject(MatDialog);
 
+  ngOnInit(): void {
+    this.loadTransactions();
+  }
   openDialog(): void {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {});
 
@@ -37,8 +46,25 @@ export class ListTransactionsComponent {
     });
   }
 
-  redirectToCreate(): void {
-    this.router.navigate(['transacoes/criar']);
+  loadTransactions(): void {
+    this.transactionService.readTransaction().subscribe({
+      next: (res) => {
+        this.transactions.set(res);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  openCreateTransactionDialog(): void {
+    const dialogRef = this.dialog.open(CreateTransactionsComponent, {
+      width: '420px',
+    }).afterClosed().pipe(first()).subscribe((result) => {
+      if(result){
+        this.loadTransactions();
+      }
+    });
   }
 
   onEdit(id: string): void {

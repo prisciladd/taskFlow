@@ -3,10 +3,12 @@ import {
   Component,
   inject,
   model,
+  signal
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
+  MAT_DIALOG_DATA,
   MatDialog,
   MatDialogActions,
   MatDialogClose,
@@ -16,6 +18,7 @@ import {
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { TransactionsService } from '../main-panel/pages/transactions/services/transactions.service';
 
 @Component({
   selector: 'app-delete-confirmation',
@@ -35,8 +38,13 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class DeleteConfirmationComponent {
   readonly dialogRef = inject(MatDialogRef<DeleteConfirmationComponent>);
+  private readonly transactionsService = inject(TransactionsService);
+  readonly data = inject<DeleteConfirmationComponent>(MAT_DIALOG_DATA);
   readonly name = model('');
   readonly dialog = inject(MatDialog);
+
+  isLoading = signal(false);
+  errorMessage = signal<string | null>(null);
 
   onNoClick(): void {
     this.dialogRef.close();

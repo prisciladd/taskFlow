@@ -7,16 +7,17 @@ import {
 } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
-import { provideNgxMask } from 'ngx-mask';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { first } from 'rxjs';
 import { TransactionTypes } from '../../../../../constants/transactions-types.enum';
 import { Transaction } from '../../../dashboard/models/transaction.model';
 import { TransactionsService } from '../../services/transactions.service';
+
 
 @Component({
   selector: 'app-create-transactions',
@@ -36,6 +37,9 @@ export class CreateTransactionsComponent {
   todayLocale = new Date().toLocaleDateString().split('/');
   todayISO = `${this.todayLocale[2]}-${this.todayLocale[1]}-${this.todayLocale[0]}`;
   private readonly transactionService = inject(TransactionsService);
+  readonly data = inject(MAT_DIALOG_DATA, { optional: true });
+  readonly id = this.data?.id;
+  
   private readonly dialogRef = inject(
     MatDialogRef<CreateTransactionsComponent>,
   );
@@ -106,5 +110,9 @@ export class CreateTransactionsComponent {
           },
         });
     }
+  }
+
+  redirectToList() {
+    this.dialogRef.close();
   }
 }

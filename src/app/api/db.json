@@ -46,6 +46,20 @@
       "description": "aaaaa",
       "amount": "10",
       "type": "expense"
+    },
+    {
+      "id": "6013",
+      "date": "2026-03-19",
+      "description": "fraldas",
+      "amount": -150,
+      "type": "expense"
+    },
+    {
+      "id": "53e5",
+      "date": "2026-03-19",
+      "description": "teste",
+      "amount": 10,
+      "type": "income"
     }
   ],
   "transfers": [],

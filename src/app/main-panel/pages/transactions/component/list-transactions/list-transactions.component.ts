@@ -1,6 +1,7 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import {
   Component,
+  DestroyRef,
   EventEmitter,
   inject,
   OnInit,
@@ -14,8 +15,9 @@ import { DeleteConfirmationComponent } from '../../../../../delete-confirmation/
 import { NegativeValuesPipe } from '../../../../../shared/pipes/negative-values.pipe';
 import { Transaction } from '../../../dashboard/models/transaction.model';
 import { TransactionsService } from '../../services/transactions.service';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { CreateTransactionsComponent } from '../create-transactions/create-transactions.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AccountStore } from '../../../dashboard/services/account.store';
 
 @Component({
   selector: 'app-list-transactions',
@@ -26,15 +28,27 @@ import { CreateTransactionsComponent } from '../create-transactions/create-trans
 export class ListTransactionsComponent implements OnInit {
   private transactionService = inject(TransactionsService);
   private readonly router = inject(Router);
+  private readonly accountState = inject(AccountStore);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly dialog = inject(MatDialog);
+
+  accountBalance = 0;
 
   @Output() editEmitter = new EventEmitter<string>();
 
   transactions = signal<Transaction[]>([]);
-  readonly dialog = inject(MatDialog);
 
   ngOnInit(): void {
     this.loadTransactions();
+
+    this.accountState
+      .getAccount()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((account) => {
+        this.accountBalance = account?.balance || 0;
+      });
   }
+
   openDialog(): void {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {});
 
@@ -50,6 +64,8 @@ export class ListTransactionsComponent implements OnInit {
     this.transactionService.readTransaction().subscribe({
       next: (res) => {
         this.transactions.set(res);
+        console.log("Carregando Transações ... ",res);
+        
       },
       error: (err) => {
         console.log(err);
@@ -58,32 +74,46 @@ export class ListTransactionsComponent implements OnInit {
   }
 
   openCreateTransactionDialog(): void {
-    const dialogRef = this.dialog.open(CreateTransactionsComponent, {
-      width: '420px',
-    }).afterClosed().pipe(first()).subscribe((result) => {
-      if(result){
-        this.loadTransactions();
-      }
-    });
+    this.dialog
+      .open(CreateTransactionsComponent, {
+        width: '420px',
+      })
+      .afterClosed()
+      .pipe(first())
+      .subscribe((result) => {
+        if (result) {
+          this.loadTransactions();
+        }
+      });
   }
 
   onEdit(id: string): void {
-    console.log('estou no onEdit');
-
     this.router.navigate([`transacoes/editar/${id}`]);
   }
 
   onDelete(id: string): void {
-    this.transactionService
-      .deleteTransaction(id)
+    const transactionToDelete = this.transactions().find(
+      (item) => item.id === id,
+    );
+    if (!transactionToDelete) {
+      return;
+    }
+
+    this.dialog
+      .open(DeleteConfirmationComponent, {
+        width: '420px',
+
+        data: {
+          description: transactionToDelete.description,
+          id: transactionToDelete.id,
+        },
+      })
+      .afterClosed()
       .pipe(first())
-      .subscribe({
-        next: () => {
-          this.transactions();
-        },
-        error: (err) => {
-          console.log('Erro ao deletar dados das transações na api', err);
-        },
+      .subscribe((confirmed) => {
+        if (confirmed) {
+          this.loadTransactions();
+        }
       });
   }
 }

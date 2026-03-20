@@ -1,5 +1,5 @@
 <!-- create-transactions.component.html -->
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="txn-form">
+<form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" class="txn-form">
   <div class="txn-grid">
     <!-- Data -->
     <mat-form-field appearance="outline" class="full">
@@ -57,7 +57,7 @@
     >
       Voltar
     </button>
-    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+    <button type="submit" class="btn btn-primary" [disabled]="transactionForm.invalid">
       Submit
     </button>
   </div>

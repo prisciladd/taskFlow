@@ -1,7 +1,7 @@
 <!-- list-transactions.component.html -->
 <div class="p-3">
   <div class="d-flex justify-content-end pb-3">
-    <button class="btn btn-primary" (click)="redirectToCreate()">
+    <button class="btn btn-primary" (click)="openCreateTransactionDialog()">
       Adicionar transação +
     </button>
   </div>
@@ -9,7 +9,7 @@
   <!-- Modo tabela (desktop/tablet) -->
   <div class="table-responsive d-none d-md-block">
     <table class="table table-striped align-middle">
-      @if(transactions.length > 0){
+      @if(transactions().length > 0){
       <thead>
         <tr>
           <th scope="col">Data</th>

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Transaction } from '../../dashboard/models/transaction.model';
 import { Observable } from 'rxjs';
@@ -22,17 +22,8 @@ export class TransactionsService {
   createTransaction(
     transaction: Omit<Transaction, 'id'>,
   ): Observable<Transaction> {
-    const headers = new HttpHeaders({
-      Authorization: 'Bearer token-secreto-banco-123',
-      'Content-Type': 'application/json',
-    });
-
-    return this.http.post<Transaction>(`${this.apiUrl}`, transaction, {headers});
+    return this.http.post<Transaction>(`${this.apiUrl}`, transaction);
   }
-
-  /* createTransaction(transaction: Transaction): Observable<Transaction>{
-    return this.http.post<Transaction>(`${this.apiUrl}`, transaction)
-  } */
 
   updateTransaction(transaction: Transaction, id: string): Observable<void> {
     return this.http.put<void>(`${this.apiUrl}/${id}`, transaction);
@@ -40,10 +31,6 @@ export class TransactionsService {
 
   deleteTransaction(id: string): Observable<void> {
     const params = new HttpParams().set('motivo', 'cancelamento');
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, {params});
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { params });
   }
-
-/*   deleteTransaction(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  } */
 }

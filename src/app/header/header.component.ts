@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Account } from '../main-panel/pages/dashboard/models/account.model';
 import { first } from 'rxjs';
 import { AccountStore } from '../main-panel/pages/dashboard/services/account.store';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,7 @@ import { AccountStore } from '../main-panel/pages/dashboard/services/account.sto
 })
 export class HeaderComponent implements OnInit {
   private readonly accountService = inject(AccountStore);
+  private readonly translateService = inject(TranslateService);
 
   account?: Account;
 
@@ -32,5 +34,9 @@ export class HeaderComponent implements OnInit {
           console.log('Erro ao buscar dados da conta na api', err);
         },
       });
+  }
+
+  mudarIdioma(idioma: string): void {
+    this.translateService.use(idioma);
   }
 }

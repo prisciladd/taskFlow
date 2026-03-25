@@ -4,41 +4,42 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { MenuIten } from '../models/menu-item.model';
 import { MatDividerModule } from '@angular/material/divider';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [MatButtonModule, RouterModule, MatIconModule, MatDividerModule],
+  imports: [MatButtonModule, RouterModule, MatIconModule, MatDividerModule, TranslatePipe],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
   menuItems: MenuIten[] = [
     {
-      label: 'Dashboard',
+      label: 'SIDEBAR.DASHBOARD',
       selected: true,
       icon: 'account_balance',
       page: 'dashboard',
     },
     {
-      label: 'Transações',
+      label: 'SIDEBAR.TRANSACTIONS',
       selected: false,
       icon: 'receipt_long',
       page: 'transacoes',
     },
     {
-      label: 'Empréstimos',
+      label: 'SIDEBAR.LOAN',
       selected: false,
       icon: 'payments',
       page: 'emprestimo',
     },
     {
-      label: 'Transferências',
+      label: 'SIDEBAR.TRANSFER',
       selected: false,
       icon: 'transfer_within_a_station',
       page: 'transferencia',
     },
     {
-      label: 'Perfil',
+      label: 'SIDEBAR.PROFILE',
       selected: false,
       icon: 'person',
       page: 'perfil',

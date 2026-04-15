@@ -1,7 +1,7 @@
 import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
-import { Component, inject,signal } from '@angular/core';
-import { AccountStore } from '../dashboard/services/account.store';
-import { LoanSimulatorComponent } from "./components/loan-simulator/loan-simulator.component";
+import { Component, inject, signal } from '@angular/core';
+import { DashboardService } from '../dashboard/services/dashboard.service';
+import { LoanSimulatorComponent } from './components/loan-simulator/loan-simulator.component';
 
 @Component({
   selector: 'app-loan',
@@ -9,14 +9,13 @@ import { LoanSimulatorComponent } from "./components/loan-simulator/loan-simulat
   imports: [CommonModule, LoanSimulatorComponent],
   providers: [CurrencyPipe, DecimalPipe],
   templateUrl: './loan.component.html',
-  styleUrls: ['./loan.component.scss']
+  styleUrls: ['./loan.component.scss'],
 })
 export class LoanComponent {
- 
-  private readonly accountStore = inject(AccountStore);
+  private readonly dashboardService = inject(DashboardService);
 
   // Exibir saldo no template com async pipe
-  balance$ = this.accountStore.balance$;
+  balance$ = this.dashboardService.balance$;
 
   loanLimit = signal(30000);
 }

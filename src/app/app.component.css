@@ -1,11 +1,2 @@
-.layout {
-  display: grid;
-  grid-template-columns: 1fr; /* mobile: uma coluna */
-}
 
-@media (min-width: 960px) {
-  .layout {
-    grid-template-columns: 280px 1fr; /* desktop: sidebar + conteúdo */
-  }
-}
 

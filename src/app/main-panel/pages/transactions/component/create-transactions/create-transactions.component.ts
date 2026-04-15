@@ -12,7 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { provideNgxMask } from 'ngx-mask';
 import { first } from 'rxjs';
 import { TransactionTypes } from '../../../../../constants/transactions-types.enum';
 import { Transaction } from '../../../dashboard/models/transaction.model';

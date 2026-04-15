@@ -80,7 +80,7 @@ export class DeleteConfirmationComponent {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {});
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+      console.log('The dialog was closed',result);
     });
   }
 }

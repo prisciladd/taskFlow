@@ -1,5 +1,10 @@
 import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import {
   FormBuilder,
   NonNullableFormBuilder,
@@ -9,18 +14,16 @@ import {
 import { provideNativeDateAdapter } from '@angular/material/core';
 import {
   MatDatepicker,
-  MatDatepickerModule
+  MatDatepickerModule,
 } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {
-  MatInputModule
-} from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { first, map, startWith } from 'rxjs';
 import { TransactionTypes } from '../../../../../constants/transactions-types.enum';
 import { Transaction } from '../../../dashboard/models/transaction.model';
 import { TransactionsService } from '../../../transactions/services/transactions.service';
 import { LoanSimulationResult } from '../../models/loan.model';
-import { AccountStore } from '../../../dashboard/services/account.store';
+import { DashboardService } from '../../../dashboard/services/dashboard.service';
 import { LoanService } from '../../services/loan.service';
 
 @Component({
@@ -34,7 +37,7 @@ import { LoanService } from '../../services/loan.service';
     CommonModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CurrencyPipe, DecimalPipe,provideNativeDateAdapter()],
+  providers: [CurrencyPipe, DecimalPipe, provideNativeDateAdapter()],
   templateUrl: './loan-simulator.component.html',
   styleUrl: './loan-simulator.component.scss',
 })
@@ -42,14 +45,14 @@ export class LoanSimulatorComponent {
   private readonly loanService = inject(LoanService);
   private readonly fb: NonNullableFormBuilder = inject(FormBuilder).nonNullable;
   private readonly transactionService = inject(TransactionsService);
-  private readonly accountStore = inject(AccountStore);
+  private readonly dashboardService = inject(DashboardService);
 
   todayLocale = new Date().toLocaleDateString().split('/');
   todayISO = `${this.todayLocale[2]}-${this.todayLocale[1]}-${this.todayLocale[0]}`;
   transactionTypesEnum = TransactionTypes;
   loading = signal(false);
   apiError = signal<string | null>(null);
-  balance$ = this.accountStore.balance$;
+  balance$ = this.dashboardService.balance$;
 
   form = this.fb.group({
     amount: this.fb.control(3000, {
@@ -81,7 +84,7 @@ export class LoanSimulatorComponent {
         installments: v.installments ?? 0,
         monthlyRate,
       });
-    }),
+    })
   );
 
   // Carrega taxa padrão da API na inicialização (se existir)
@@ -93,7 +96,9 @@ export class LoanSimulatorComponent {
       },
       error: () => {
         // Se a API falhar, mantemos o valor default e mostramos aviso opcional
-        this.apiError.set('Não foi possível carregar taxa padrão. Use a taxa manualmente.');
+        this.apiError.set(
+          'Não foi possível carregar taxa padrão. Use a taxa manualmente.'
+        );
       },
     });
   }
@@ -125,15 +130,15 @@ export class LoanSimulatorComponent {
       .subscribe({
         next: (res) => {
           // 1) Credita o valor solicitado no saldo global
-          this.accountStore.credit(
+          this.dashboardService.credit(
             payload.amount,
-            `Crédito de empréstimo #${res.id} (${payload.installments}x)`,
+            `Crédito de empréstimo #${res.id} (${payload.installments}x)`
           );
           // 2) Opcional: poderia agendar débitos mensais (fora do escopo)
         },
         error: (err) => {
           this.apiError.set(
-            'Falha ao contratar o empréstimo. Tente novamente.',
+            'Falha ao contratar o empréstimo. Tente novamente.'
           );
         },
         complete: () => {

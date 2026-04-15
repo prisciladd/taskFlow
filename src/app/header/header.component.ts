@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Account } from '../main-panel/pages/dashboard/models/account.model';
 import { first } from 'rxjs';
-import { AccountStore } from '../main-panel/pages/dashboard/services/account.store';
+import { DashboardService } from '../main-panel/pages/dashboard/services/dashboard.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -13,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent implements OnInit {
-  private readonly accountService = inject(AccountStore);
+  private readonly dashboardService = inject(DashboardService);
   private readonly translateService = inject(TranslateService);
 
   account?: Account;
@@ -23,8 +23,8 @@ export class HeaderComponent implements OnInit {
   }
 
   getAccount(): void {
-    this.accountService
-      .getAccount()
+    this.dashboardService
+      .getAccountData()
       .pipe(first())
       .subscribe({
         next: (res) => {

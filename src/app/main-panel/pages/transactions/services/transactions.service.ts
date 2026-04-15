@@ -1,15 +1,15 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Transaction } from '../../dashboard/models/transaction.model';
 import { Observable } from 'rxjs';
+import { Transaction } from '../../dashboard/models/transaction.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TransactionsService {
-  private apiUrl = 'http://localhost:3000/transactions';
+  private readonly apiUrl = 'http://localhost:3000/transactions';
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   readTransaction(): Observable<Transaction[]> {
     return this.http.get<Transaction[]>(`${this.apiUrl}`);

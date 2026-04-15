@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   isAutheticated = signal<boolean>(this.hasToken());
 
-  constructor(private router: Router) {}
+  constructor(private readonly router: Router) {}
 
   login(email: string, password: string): boolean {
     if (email === 'admin@banco.com' && password === 'admin123') {
@@ -15,10 +15,13 @@ export class AuthService {
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.falso-payload.falsa-assinatura';
       localStorage.setItem('token', fakeJwt);
       this.isAutheticated.set(true);
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/home/dashboard']);
       return true;
+    }else{
+      console.log(`Login falhou: email ou senha inválidos.,Email: ${email}, Senha: ${password}`);
+      
+      return false;
     }
-    return false;
   }
 
   getToken(): string | null {

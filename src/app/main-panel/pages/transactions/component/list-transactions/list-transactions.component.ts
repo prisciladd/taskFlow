@@ -17,7 +17,7 @@ import { Transaction } from '../../../dashboard/models/transaction.model';
 import { TransactionsService } from '../../services/transactions.service';
 import { CreateTransactionsComponent } from '../create-transactions/create-transactions.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AccountStore } from '../../../dashboard/services/account.store';
+import { DashboardService } from '../../../dashboard/services/dashboard.service';
 
 @Component({
   selector: 'app-list-transactions',
@@ -26,9 +26,9 @@ import { AccountStore } from '../../../dashboard/services/account.store';
   styleUrl: './list-transactions.component.css',
 })
 export class ListTransactionsComponent implements OnInit {
-  private transactionService = inject(TransactionsService);
+  private readonly transactionService = inject(TransactionsService);
   private readonly router = inject(Router);
-  private readonly accountState = inject(AccountStore);
+  private readonly dashboardService = inject(DashboardService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly dialog = inject(MatDialog);
 
@@ -41,8 +41,8 @@ export class ListTransactionsComponent implements OnInit {
   ngOnInit(): void {
     this.loadTransactions();
 
-    this.accountState
-      .getAccount()
+    this.dashboardService
+      .getAccountData()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((account) => {
         this.accountBalance = account?.balance || 0;
@@ -64,8 +64,7 @@ export class ListTransactionsComponent implements OnInit {
     this.transactionService.readTransaction().subscribe({
       next: (res) => {
         this.transactions.set(res);
-        console.log("Carregando Transações ... ",res);
-        
+        console.log('Carregando Transações ... ', res);
       },
       error: (err) => {
         console.log(err);
@@ -93,7 +92,7 @@ export class ListTransactionsComponent implements OnInit {
 
   onDelete(id: string): void {
     const transactionToDelete = this.transactions().find(
-      (item) => item.id === id,
+      (item) => item.id === id
     );
     if (!transactionToDelete) {
       return;

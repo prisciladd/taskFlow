@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -19,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { TransactionsService } from '../transactions/services/transactions.service';
 import { Transaction } from '../dashboard/models/transaction.model';
 import { DashboardService } from '../dashboard/services/dashboard.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-transfers',
@@ -39,11 +40,16 @@ export class TransfersComponent implements OnInit {
   transactionTypesEnum = TransactionTypes;
   todayLocale = new Date().toLocaleDateString().split('/');
   todayISO = `${this.todayLocale[2]}-${this.todayLocale[1]}-${this.todayLocale[0]}`;
+  isTransferring = signal(false);
 
   private readonly transferService = inject(TransfersService);
   private readonly transactionService = inject(TransactionsService);
   private readonly _snackBar = inject(MatSnackBar);
   private readonly dashboardService = inject(DashboardService);
+
+  account = toSignal(this.dashboardService.getAccountData(), {
+    initialValue: null,
+  });
 
   ngOnInit(): void {
     this.buildForm();
@@ -71,6 +77,7 @@ export class TransfersComponent implements OnInit {
     console.log('enviado');
     const payload: Transfer = this.form.getRawValue();
     const payloadTransaction: Transaction = this.form.getRawValue();
+    const amount:number = this.form.getRawValue().amount;
 
     this.transferService
       .createTransfer(payload)
@@ -83,10 +90,15 @@ export class TransfersComponent implements OnInit {
           );
 
           this.openSnackBar('Transferência realizada!', 'OK');
+
+          this.dashboardService.updateBalance(this.account()!.balance - payload.amount);
+
+          
         },
         error: (err) => {
           console.log('Erro ao gravar dados da transferência na api', err);
         },
+        
       });
 
     this.transactionService
@@ -100,5 +112,20 @@ export class TransfersComponent implements OnInit {
           console.log('Erro ao gravar dados da transação na api', err);
         },
       });
+
+      
+
+      this.dashboardService.updateBalance(amount).pipe(first()).subscribe({
+        next: () => {
+          console.log('Saldo atualizado!');
+          this.isTransferring.set(true);
+        },
+        error: (err) => {
+          console.log('Erro ao atualizar saldo na api', err);
+        },
+        complete: () => {
+          this.isTransferring.set(false);
+        },
+      })
   }
 }

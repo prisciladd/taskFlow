@@ -21,6 +21,7 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from './services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -40,6 +41,8 @@ import { AuthService } from './services/auth.service';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
+  constructor(private readonly router: Router) {}
+
   errorMessage = signal<string | null>(null);
 
   loginForm = new FormGroup({
@@ -63,6 +66,12 @@ export class LoginComponent {
       )
     ) {
       this.errorMessage.set('Email ou senha inválidos. Tente novamente.');
+      console.log("Email ou senha inválidos");
+      
+    } else{
+      console.log("Autorizado navegar para dashboard");
+      
+      this.router.navigate(['/home']);
     }
   }
 }

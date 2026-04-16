@@ -4,7 +4,7 @@
     <div class="balance">
       <span>Saldo atual:</span>
       <strong>{{
-        balance$ | async | currency: "BRL" : "symbol-narrow" : "1.2-2"
+       account()?.balance | currency
       }}</strong>
       <span>Limite atual:</span>
       <strong>{{loanLimit()}}</strong>

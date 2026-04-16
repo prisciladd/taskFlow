@@ -25,6 +25,7 @@ import { TransactionsService } from '../../../transactions/services/transactions
 import { LoanSimulationResult } from '../../models/loan.model';
 import { DashboardService } from '../../../dashboard/services/dashboard.service';
 import { LoanService } from '../../services/loan.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-loan-simulator',
@@ -52,7 +53,12 @@ export class LoanSimulatorComponent {
   transactionTypesEnum = TransactionTypes;
   loading = signal(false);
   apiError = signal<string | null>(null);
-  balance$ = this.dashboardService.balance$;
+
+  account = toSignal(this.dashboardService.getAccountData(), {
+    initialValue: null,
+  });
+  
+  
 
   form = this.fb.group({
     amount: this.fb.control(3000, {
@@ -134,7 +140,8 @@ export class LoanSimulatorComponent {
             payload.amount,
             `Crédito de empréstimo #${res.id} (${payload.installments}x)`
           );
-          // 2) Opcional: poderia agendar débitos mensais (fora do escopo)
+          
+          this.dashboardService.updateBalance(this.account()!.balance + payload.amount);
         },
         error: (err) => {
           this.apiError.set(

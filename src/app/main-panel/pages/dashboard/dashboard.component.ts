@@ -1,15 +1,15 @@
-import { AsyncPipe, CurrencyPipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { Component, effect, inject, OnInit, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { first } from 'rxjs';
-import { DashboardService } from './services/dashboard.service';
 import { TransactionsService } from '../transactions/services/transactions.service';
 import { Transfer } from '../transfers/models/transfer.model';
 import { TransfersService } from '../transfers/services/transfers.service';
 import { CreditCardInvoiceComponent } from './components/credit-card-invoice/credit-card-invoice.component';
 import { Transaction } from './models/transaction.model';
-import { Account } from './models/account.model';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { DashboardService } from './services/dashboard.service';
+import { RouterModule } from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -18,8 +18,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
     MatCardContent,
     CurrencyPipe,
     CreditCardInvoiceComponent,
-    AsyncPipe,
-  ],
+    RouterModule
+],
+standalone: true,
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -36,7 +37,6 @@ export class DashboardComponent implements OnInit {
   totalDespesa: number = 0;
   saldoPeriodo: number = 0;
   
-  balanceAtual: number = 0;
   transaction?: Transaction[];
   transactions: Transaction[] = [];
   transfers?: Transfer;

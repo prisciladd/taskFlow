@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { TransactionTypes } from '../../../../constants/transactions-types.enum';
 import { Account } from '../models/account.model';
 import { Transaction } from '../models/transaction.model';
@@ -8,9 +8,6 @@ import { Transaction } from '../models/transaction.model';
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
   
-
-  private readonly balanceSubject = new BehaviorSubject<number>(5000);
-  readonly balance$ = this.balanceSubject.asObservable();
 
   private readonly transactionsSubject = new BehaviorSubject<Transaction[]>([]);
   readonly transactions$ = this.transactionsSubject.asObservable();
@@ -23,8 +20,12 @@ export class DashboardService {
     return this.http.get<Account>(`${this.apiUrl}`);
   }
 
-  get currentBalance(): number {
-    return this.balanceSubject.value;
+  updateBalance(newBalance: number): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}`, { balance: newBalance });
+  }
+
+  handleError() {
+    console.error(throwError(() => new Error('Erro ao atualizar saldo')));
   }
 
   private pushTransaction(tx: Transaction) {
@@ -33,8 +34,7 @@ export class DashboardService {
   }
 
   credit(amount: number, description: string) {
-    const newBalance = this.currentBalance + amount;
-    this.balanceSubject.next(newBalance);
+    this.updateBalance(amount);
 
     this.pushTransaction({
       id: crypto.randomUUID(),
@@ -46,8 +46,7 @@ export class DashboardService {
   }
 
   debit(amount: number, description: string) {
-    const newBalance = this.currentBalance - amount;
-    this.balanceSubject.next(newBalance);
+    this.updateBalance(amount);
 
     this.pushTransaction({
       id: crypto.randomUUID(),
@@ -57,4 +56,6 @@ export class DashboardService {
       type: TransactionTypes.EXPENSE,
     });
   }
+
+ 
 }

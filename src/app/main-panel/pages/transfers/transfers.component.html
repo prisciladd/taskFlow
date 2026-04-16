@@ -49,9 +49,9 @@
         </mat-form-field>
 
         <button matFab extended type="button"
-        class="btn btn-primary">
+        class="btn btn-primary" [disabled]="isTransferring()">
           <mat-icon>send</mat-icon>
-          Transferir
+          Realizar Transferência
         </button>
       </div>
     </form>

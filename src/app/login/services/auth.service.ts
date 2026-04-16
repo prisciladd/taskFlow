@@ -15,7 +15,7 @@ export class AuthService {
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.falso-payload.falsa-assinatura';
       localStorage.setItem('token', fakeJwt);
       this.isAutheticated.set(true);
-      this.router.navigate(['/home/dashboard']);
+      this.router.navigate(['/home']);
       return true;
     }else{
       console.log(`Login falhou: email ou senha inválidos.,Email: ${email}, Senha: ${password}`);

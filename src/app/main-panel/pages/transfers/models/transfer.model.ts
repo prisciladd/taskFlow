@@ -1,7 +1,7 @@
-export interface Transfer{
-    id:string,
-    account: number,
-    date:string,
-    amount: number,
-    description: string
+export interface Transfer {
+  id?: string;
+  account: number;
+  date: string;
+  amount: number;
+  description: string;
 }

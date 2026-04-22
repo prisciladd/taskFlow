@@ -1,8 +1,11 @@
 {
   "account": {
-    "id": 1,
-    "name": "Priscila",
-    "balance": 5230.75
+    "item": {
+      "id": 1,
+      "name": "Priscila",
+      "balance": 5230.75
+    },
+    "balance": 4730.75
   },
   "transactions": [
     {
@@ -60,10 +63,70 @@
       "description": "teste",
       "amount": 10,
       "type": "income"
+    },
+    {
+      "id": "2a42",
+      "date": "2026-04-17",
+      "description": "piquenique",
+      "amount": -100,
+      "type": "expense"
+    },
+    {
+      "id": "9db4",
+      "date": "2026-04-20",
+      "description": "dxcsdfsd",
+      "amount": 11,
+      "type": "income"
+    },
+    {
+      "id": "",
+      "amount": 3000,
+      "installments": 12,
+      "monthlyRatePercent": 2.4,
+      "date": "2026-04-21T03:00:00.000Z",
+      "description": "",
+      "type": "loan"
+    },
+    {
+      "id": "",
+      "amount": 3000,
+      "installments": 12,
+      "monthlyRatePercent": 2.4,
+      "date": "2026-04-21T03:00:00.000Z",
+      "description": "",
+      "type": "loan"
+    },
+    {
+      "id": "7a12",
+      "date": "2026-04-20T03:00:00.000Z",
+      "description": "pagar dividas do leandro",
+      "amount": -500,
+      "type": "transfer"
     }
   ],
-  "transfers": [],
-  "loans": [],
+  "transfers": [
+    {
+      "id": "32ec",
+      "account": 13456,
+      "amount": 500,
+      "date": "2026-04-20T03:00:00.000Z",
+      "description": "pagar dividas do leandro"
+    }
+  ],
+  "loans": [
+    {
+      "id": "ed20",
+      "amount": 3000,
+      "installments": 12,
+      "monthlyRate": 0.024
+    },
+    {
+      "id": "7aa5",
+      "amount": 3000,
+      "installments": 12,
+      "monthlyRate": 0.024
+    }
+  ],
   "rates": {
     "personalLoanMonthlyRate": 2.4
   }

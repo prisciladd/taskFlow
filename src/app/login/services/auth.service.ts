@@ -5,7 +5,9 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  isAutheticated = signal<boolean>(this.hasToken());
+  private static readonly TOKEN_KEY = 'taskflow_token';
+
+  readonly isAuthenticated = signal<boolean>(this.hasValidSession());
 
   constructor(private readonly router: Router) {}
 
@@ -13,22 +15,39 @@ export class AuthService {
     if (email === 'admin@banco.com' && password === 'admin123') {
       const fakeJwt =
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.falso-payload.falsa-assinatura';
-      localStorage.setItem('token', fakeJwt);
-      this.isAutheticated.set(true);
+      this.setSession(fakeJwt);
       this.router.navigate(['/home']);
       return true;
-    }else{
-      console.log(`Login falhou: email ou senha inválidos.,Email: ${email}, Senha: ${password}`);
-      
+    } else {
+      this.clearSession();
+      console.log(
+        `Login falhou: email ou senha inválidos. Email: ${email}, Senha: ${password}`,
+      );
+
       return false;
     }
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('token');
+  logout(): void {
+    this.clearSession();
+    this.router.navigate(['/login']);
   }
 
-  private hasToken(): boolean {
-    return !!localStorage.getItem('token');
+  getToken(): string | null {
+    return localStorage.getItem(AuthService.TOKEN_KEY);
+  }
+
+  hasValidSession(): boolean {
+    return !!this.getToken();
+  }
+
+  private setSession(token: string): void {
+    localStorage.setItem(AuthService.TOKEN_KEY, token);
+    this.isAuthenticated.set(true);
+  }
+
+  private clearSession(): void {
+    localStorage.removeItem(AuthService.TOKEN_KEY);
+    this.isAuthenticated.set(false);
   }
 }

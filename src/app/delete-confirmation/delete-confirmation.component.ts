@@ -3,7 +3,7 @@ import {
   Component,
   inject,
   model,
-  signal
+  signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,10 +14,11 @@ import {
   MatDialogClose,
   MatDialogContent,
   MatDialogRef,
-  MatDialogTitle
+  MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TransactionsService } from '../main-panel/pages/transactions/services/transactions.service';
 
 interface ConfirmDeleteDialogData {
@@ -42,12 +43,12 @@ interface ConfirmDeleteDialogData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeleteConfirmationComponent {
-
   readonly dialogRef = inject(MatDialogRef<DeleteConfirmationComponent>);
   private readonly transactionsService = inject(TransactionsService);
   readonly data = inject<ConfirmDeleteDialogData>(MAT_DIALOG_DATA);
   readonly name = model('');
   readonly dialog = inject(MatDialog);
+  private readonly snackBar = inject(MatSnackBar);
 
   isLoading = signal(false);
   errorMessage = signal<string | null>(null);
@@ -56,20 +57,22 @@ export class DeleteConfirmationComponent {
     this.isLoading.set(true);
     this.errorMessage.set(null);
     this.dialogRef.close(confirm);
-    
+
     this.transactionsService.deleteTransaction(this.data.id).subscribe({
       next: () => {
         this.dialogRef.close(true);
       },
       error: (err) => {
         console.error('Erro ao excluir transação:', err);
-        this.errorMessage.set('Ocorreu um erro ao excluir a transação.');
+        this.errorMessage.set(
+          err?.message || 'Ocorreu um erro ao excluir a transacao.',
+        );
+        this.snackBar.open(this.errorMessage()!, 'OK', { duration: 4000 });
       },
       complete: () => {
         this.isLoading.set(false);
-      }
+      },
     });
-
   }
 
   onNoClick(): void {
@@ -80,7 +83,7 @@ export class DeleteConfirmationComponent {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {});
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed',result);
+      console.log('The dialog was closed', result);
     });
   }
 }

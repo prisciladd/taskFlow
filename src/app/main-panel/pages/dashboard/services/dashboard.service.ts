@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
 import { TransactionTypes } from '../../../../constants/transactions-types.enum';
 import { Account } from '../models/account.model';
 import { Transaction } from '../models/transaction.model';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
-  
-
   private readonly transactionsSubject = new BehaviorSubject<Transaction[]>([]);
   readonly transactions$ = this.transactionsSubject.asObservable();
 
@@ -17,15 +15,24 @@ export class DashboardService {
   apiUrl = 'http://localhost:3000/account';
 
   getAccountData(): Observable<Account> {
-    return this.http.get<Account>(`${this.apiUrl}`);
+    return this.http
+      .get<Account>(`${this.apiUrl}`)
+      .pipe(catchError(this.handleHttpError('buscar dados da conta')));
   }
 
   updateBalance(newBalance: number): Observable<void> {
-    return this.http.patch<void>(`${this.apiUrl}`, { balance: newBalance });
+    return this.http
+      .patch<void>(`${this.apiUrl}`, { balance: newBalance })
+      .pipe(catchError(this.handleHttpError('atualizar saldo')));
   }
 
-  handleError() {
-    console.error(throwError(() => new Error('Erro ao atualizar saldo')));
+  private handleHttpError(operation: string) {
+    return (error: unknown) => {
+      console.error(`[DashboardService] Erro ao ${operation}.`, error);
+      return throwError(
+        () => new Error(`Nao foi possivel ${operation}. Tente novamente.`),
+      );
+    };
   }
 
   private pushTransaction(tx: Transaction) {
@@ -56,6 +63,4 @@ export class DashboardService {
       type: TransactionTypes.EXPENSE,
     });
   }
-
- 
 }

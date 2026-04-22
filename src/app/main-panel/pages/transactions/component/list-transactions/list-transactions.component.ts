@@ -18,6 +18,7 @@ import { TransactionsService } from '../../services/transactions.service';
 import { CreateTransactionsComponent } from '../create-transactions/create-transactions.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DashboardService } from '../../../dashboard/services/dashboard.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-list-transactions',
@@ -31,6 +32,7 @@ export class ListTransactionsComponent implements OnInit {
   private readonly dashboardService = inject(DashboardService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly dialog = inject(MatDialog);
+  private readonly snackBar = inject(MatSnackBar);
 
   accountBalance = 0;
 
@@ -44,8 +46,17 @@ export class ListTransactionsComponent implements OnInit {
     this.dashboardService
       .getAccountData()
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((account) => {
-        this.accountBalance = account?.balance || 0;
+      .subscribe({
+        next: (account) => {
+          this.accountBalance = account?.balance || 0;
+        },
+        error: (err) => {
+          this.snackBar.open(
+            err?.message || 'Nao foi possivel carregar saldo da conta.',
+            'OK',
+            { duration: 4000 },
+          );
+        },
       });
   }
 
@@ -68,6 +79,11 @@ export class ListTransactionsComponent implements OnInit {
       },
       error: (err) => {
         console.log(err);
+        this.snackBar.open(
+          err?.message || 'Nao foi possivel carregar a lista de transacoes.',
+          'OK',
+          { duration: 4000 },
+        );
       },
     });
   }
@@ -92,7 +108,7 @@ export class ListTransactionsComponent implements OnInit {
 
   onDelete(id: string): void {
     const transactionToDelete = this.transactions().find(
-      (item) => item.id === id
+      (item) => item.id === id,
     );
     if (!transactionToDelete) {
       return;

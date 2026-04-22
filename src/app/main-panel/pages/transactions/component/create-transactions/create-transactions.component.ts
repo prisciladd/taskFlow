@@ -11,13 +11,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 import { provideNgxMask } from 'ngx-mask';
 import { first } from 'rxjs';
 import { TransactionTypes } from '../../../../../constants/transactions-types.enum';
 import { Transaction } from '../../../dashboard/models/transaction.model';
 import { TransactionsService } from '../../services/transactions.service';
-
 
 @Component({
   selector: 'app-create-transactions',
@@ -39,10 +39,11 @@ export class CreateTransactionsComponent {
   private readonly transactionService = inject(TransactionsService);
   readonly data = inject(MAT_DIALOG_DATA, { optional: true });
   readonly id = this.data?.id;
-  
+
   private readonly dialogRef = inject(
     MatDialogRef<CreateTransactionsComponent>,
   );
+  private readonly snackBar = inject(MatSnackBar);
 
   transactionForm = new FormGroup({
     date: new FormControl(new Date().toISOString().split('T')[0], {
@@ -102,8 +103,10 @@ export class CreateTransactionsComponent {
           error: (err) => {
             console.error('Erro ao criar transação', err);
             this.errorMessage.set(
-              'Não foi possível criar a transação. Tente novamente.',
+              err?.message ||
+                'Nao foi possivel criar a transacao. Tente novamente.',
             );
+            this.snackBar.open(this.errorMessage()!, 'OK', { duration: 4000 });
           },
           complete: () => {
             this.isLoading.set(false);

@@ -26,6 +26,7 @@ import { LoanSimulationResult } from '../../models/loan.model';
 import { DashboardService } from '../../../dashboard/services/dashboard.service';
 import { LoanService } from '../../services/loan.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-loan-simulator',
@@ -47,6 +48,7 @@ export class LoanSimulatorComponent {
   private readonly fb: NonNullableFormBuilder = inject(FormBuilder).nonNullable;
   private readonly transactionService = inject(TransactionsService);
   private readonly dashboardService = inject(DashboardService);
+  private readonly snackBar = inject(MatSnackBar);
 
   todayLocale = new Date().toLocaleDateString().split('/');
   todayISO = `${this.todayLocale[2]}-${this.todayLocale[1]}-${this.todayLocale[0]}`;
@@ -57,8 +59,6 @@ export class LoanSimulatorComponent {
   account = toSignal(this.dashboardService.getAccountData(), {
     initialValue: null,
   });
-  
-  
 
   form = this.fb.group({
     amount: this.fb.control(3000, {
@@ -90,7 +90,7 @@ export class LoanSimulatorComponent {
         installments: v.installments ?? 0,
         monthlyRate,
       });
-    })
+    }),
   );
 
   // Carrega taxa padrão da API na inicialização (se existir)
@@ -103,8 +103,9 @@ export class LoanSimulatorComponent {
       error: () => {
         // Se a API falhar, mantemos o valor default e mostramos aviso opcional
         this.apiError.set(
-          'Não foi possível carregar taxa padrão. Use a taxa manualmente.'
+          'Nao foi possivel carregar taxa padrao. Use a taxa manualmente.',
         );
+        this.snackBar.open(this.apiError()!, 'OK', { duration: 4000 });
       },
     });
   }
@@ -138,15 +139,18 @@ export class LoanSimulatorComponent {
           // 1) Credita o valor solicitado no saldo global
           this.dashboardService.credit(
             payload.amount,
-            `Crédito de empréstimo #${res.id} (${payload.installments}x)`
+            `Crédito de empréstimo #${res.id} (${payload.installments}x)`,
           );
-          
-          this.dashboardService.updateBalance(this.account()!.balance + payload.amount);
+
+          this.dashboardService.updateBalance(
+            this.account()!.balance + payload.amount,
+          );
         },
         error: (err) => {
           this.apiError.set(
-            'Falha ao contratar o empréstimo. Tente novamente.'
+            err?.message || 'Falha ao contratar o emprestimo. Tente novamente.',
           );
+          this.snackBar.open(this.apiError()!, 'OK', { duration: 4000 });
         },
         complete: () => {
           this.loading.set(false);
@@ -162,6 +166,12 @@ export class LoanSimulatorComponent {
         },
         error: (err) => {
           console.log('Erro ao gravar dados do empréstimo na api', err);
+          this.snackBar.open(
+            err?.message ||
+              'Nao foi possivel registrar a transacao do emprestimo.',
+            'OK',
+            { duration: 4000 },
+          );
         },
       });
   }

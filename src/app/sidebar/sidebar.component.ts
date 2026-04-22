@@ -1,7 +1,7 @@
-import { Component, HostListener, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MenuIten } from '../models/menu-item.model';
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -13,36 +13,38 @@ import { TranslatePipe } from '@ngx-translate/core';
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
+  router = inject(Router);
+
   menuItems: MenuIten[] = [
     {
       label: 'SIDEBAR.DASHBOARD',
       selected: true,
       icon: 'account_balance',
-      page: 'dashboard',
+      page: '/home/dashboard',
     },
     {
       label: 'SIDEBAR.TRANSACTIONS',
       selected: false,
       icon: 'receipt_long',
-      page: 'transacoes',
+      page: '/home/transacoes',
     },
     {
       label: 'SIDEBAR.LOAN',
       selected: false,
       icon: 'payments',
-      page: 'emprestimo',
+      page: '/home/emprestimo',
     },
     {
       label: 'SIDEBAR.TRANSFER',
       selected: false,
       icon: 'transfer_within_a_station',
-      page: 'transferencia',
+      page: '/home/transferencia',
     },
     {
       label: 'SIDEBAR.PROFILE',
       selected: false,
       icon: 'person',
-      page: 'perfil',
+      page: '/home/perfil',
     }
   ];
 
@@ -63,5 +65,6 @@ export class SidebarComponent {
 
   redirectToPage() {
     this.close();
+    
   }
 }

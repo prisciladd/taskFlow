@@ -4,19 +4,25 @@
   <mat-card class="cards-full" appearance="raised">
     <mat-card-content>
       <p>Saldo disponível</p>
-      @if (isBalanceVisible()) {
-        <strong>{{
-          account()?.balance | currency
-        }}</strong>
-      } @else {
-        R$ ***********
-      }
-      <div>
-
-        <button type="button" class="btn btn-primary" (click)="toggleBalance()">
-          {{ isBalanceVisible() ? "Esconder saldo" : "Exibir saldo" }}
+      <div class="balance-container">
+        <button
+          mat-icon-button
+          class="balance-toggle-btn"
+          type="button"
+          (click)="toggleBalance()"
+          aria-label="Alternar visibilidade do saldo"
+        >
+          <mat-icon
+            [fontIcon]="isBalanceVisible() ? 'visibility_off' : 'visibility'"
+          ></mat-icon>
         </button>
+        @if (isBalanceVisible()) {
+          <strong>{{ account()?.balance | currency }}</strong>
+        } @else {
+          R$ ***********
+        }
       </div>
+
       <div class="cards-container">
         <p>Agência 0001</p>
         <p>Conta 123456-7</p>
@@ -49,14 +55,16 @@
 
   @defer (on interaction(loadButton)) {
     <app-credit-card-invoice></app-credit-card-invoice>
-  }
-  @placeholder {
-    <div #loadButton class="loading-placeholder" style="color: goldenrod; cursor: pointer;" >
+  } @placeholder {
+    <div
+      #loadButton
+      class="loading-placeholder"
+      style="color: goldenrod; cursor: pointer"
+    >
       Clique para ver a fatura do cartão de crédito
     </div>
-  }
-  @loading (minimum 2s) {
-    <div class="loading-placeholder" style="color: goldenrod;">
+  } @loading (minimum 2s) {
+    <div class="loading-placeholder" style="color: goldenrod">
       Carregando fatura do cartão de crédito...
     </div>
   }

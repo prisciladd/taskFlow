@@ -6,16 +6,15 @@
   <div>
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="txn-form">
       <div class="txn-grid">
-        
         <!-- Data da transferência -->
         <mat-form-field appearance="outline">
           <mat-label>Data da transferência</mat-label>
           <input matInput [matDatepicker]="picker" formControlName="date" />
           <mat-datepicker-toggle
-        matIconSuffix
-        [for]="picker"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
         <!-- Conta Destino -->
@@ -44,12 +43,19 @@
         <mat-form-field appearance="outline" class="half">
           <mat-label>Tipo de transação</mat-label>
           <mat-select formControlName="type">
-            <mat-option [value]="transactionTypesEnum.TRANSFER">Transferência</mat-option>
+            <mat-option [value]="transactionTypesEnum.TRANSFER"
+              >Transferência</mat-option
+            >
           </mat-select>
         </mat-form-field>
 
-        <button matFab extended type="button"
-        class="btn btn-primary" [disabled]="isTransferring()">
+        <button
+          matFab
+          extended
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="isTransferring() || form.invalid"
+        >
           <mat-icon>send</mat-icon>
           Realizar Transferência
         </button>

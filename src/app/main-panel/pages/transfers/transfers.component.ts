@@ -3,6 +3,7 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  Validators,
   ɵInternalFormsSharedModule,
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
-import { first } from 'rxjs';
+import { concatMap, finalize, first } from 'rxjs';
 import { TransactionTypes } from '../../../constants/transactions-types.enum';
 import { Transfer } from './models/transfer.model';
 import { TransfersService } from './services/transfers.service';
@@ -56,16 +57,19 @@ export class TransfersComponent implements OnInit {
   }
 
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action);
+    this._snackBar.open(message, action, { duration: 4000 });
   }
   form!: FormGroup;
 
   buildForm(): void {
     this.form = new FormGroup({
-      account: new FormControl(),
-      amount: new FormControl(),
-      date: new FormControl(this.todayISO),
-      description: new FormControl(),
+      account: new FormControl('', Validators.required),
+      amount: new FormControl<number | null>(null, [
+        Validators.required,
+        Validators.min(0.01),
+      ]),
+      date: new FormControl(this.todayISO, Validators.required),
+      description: new FormControl('', Validators.required),
       type: new FormControl({
         value: this.transactionTypesEnum.TRANSFER,
         disabled: true,
@@ -74,58 +78,89 @@ export class TransfersComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log('enviado');
-    const payload: Transfer = this.form.getRawValue();
-    const payloadTransaction: Transaction = this.form.getRawValue();
-    const amount:number = this.form.getRawValue().amount;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.openSnackBar(
+        'Preencha os campos obrigatorios da transferencia.',
+        'OK',
+      );
+      return;
+    }
+
+    const accountData = this.account();
+    if (!accountData) {
+      this.openSnackBar('Nao foi possivel carregar o saldo da conta.', 'OK');
+      return;
+    }
+
+    const rawValue = this.form.getRawValue();
+    const amount = Number(rawValue.amount);
+
+    if (Number.isNaN(amount) || amount <= 0) {
+      this.openSnackBar(
+        'Informe um valor de transferencia maior que zero.',
+        'OK',
+      );
+      return;
+    }
+
+    if (amount > accountData.balance) {
+      this.openSnackBar(
+        'Saldo insuficiente para realizar a transferencia.',
+        'OK',
+      );
+      return;
+    }
+
+    const payload: Transfer = {
+      account: Number(rawValue.account),
+      amount,
+      date: rawValue.date,
+      description: rawValue.description,
+    };
+    const newBalance = accountData.balance - amount;
+
+    const payloadTransaction: Omit<Transaction, 'id'> = {
+      date: rawValue.date,
+      description: rawValue.description,
+      amount: -Math.abs(amount),
+      type: TransactionTypes.TRANSFER,
+    };
+
+    this.isTransferring.set(true);
 
     this.transferService
       .createTransfer(payload)
-      .pipe(first())
+      .pipe(
+        first(),
+        concatMap(() =>
+          this.dashboardService.updateBalance(newBalance).pipe(first()),
+        ),
+        concatMap(() =>
+          this.transactionService
+            .createTransaction(payloadTransaction)
+            .pipe(first()),
+        ),
+        finalize(() => this.isTransferring.set(false)),
+      )
       .subscribe({
-        next: (res) => {
-          this.dashboardService.debit(
-            payload.amount,
-            `Débito de transferência #${res.id} (${payload.description}x)`
-          );
-
+        next: () => {
           this.openSnackBar('Transferência realizada!', 'OK');
-
-          this.dashboardService.updateBalance(this.account()!.balance - payload.amount);
-
-          
+          this.form.reset({
+            account: '',
+            amount: null,
+            date: this.todayISO,
+            description: '',
+            type: this.transactionTypesEnum.TRANSFER,
+          });
         },
         error: (err) => {
-          console.log('Erro ao gravar dados da transferência na api', err);
-        },
-        
-      });
-
-    this.transactionService
-      .createTransaction(payloadTransaction)
-      .pipe(first())
-      .subscribe({
-        next: () => {
-          console.log('Transferência realizada!');
-        },
-        error: (err) => {
-          console.log('Erro ao gravar dados da transação na api', err);
+          console.log('Erro ao concluir fluxo da transferência na api', err);
+          this.openSnackBar(
+            err?.message || 'Nao foi possivel concluir a transferencia.',
+            'OK',
+          );
         },
       });
-
-      
-
-      this.dashboardService.updateBalance(amount).pipe(first()).subscribe({
-        next: () => {
-          console.log('Saldo atualizado!');
-          this.isTransferring.set(true);
-        },
-        error: (err) => {
-          console.log('Erro ao atualizar saldo na api', err);
-        },
-        complete: () => {
-          this.isTransferring.set(false);
-        },
-      })
   }
 }

@@ -1,8 +1,8 @@
-
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnInit,
   signal,
 } from '@angular/core';
 import {
@@ -26,7 +26,6 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   imports: [
-    
     FormsModule,
     MatFormField,
     MatLabel,
@@ -40,7 +39,7 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   constructor(private readonly router: Router) {}
 
   errorMessage = signal<string | null>(null);
@@ -58,20 +57,32 @@ export class LoginComponent {
 
   private readonly authService = inject(AuthService);
 
-  onSubmit() {
-    if (
-      !this.authService.login(
-        this.loginForm.getRawValue().email,
-        this.loginForm.getRawValue().password
-      )
-    ) {
-      this.errorMessage.set('Email ou senha inválidos. Tente novamente.');
-      console.log("Email ou senha inválidos");
-      
-    } else{
-      console.log("Autorizado navegar para dashboard");
-      
+  ngOnInit(): void {
+    if (this.authService.hasValidSession()) {
       this.router.navigate(['/home']);
     }
+  }
+
+  onSubmit(): void {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      this.errorMessage.set('Preencha email e senha para continuar.');
+      return;
+    }
+
+    this.errorMessage.set(null);
+
+    const loginSuccess = this.authService.login(
+      this.loginForm.getRawValue().email,
+      this.loginForm.getRawValue().password,
+    );
+
+    if (loginSuccess) {
+      console.log('Autorizado navegar para dashboard');
+      return;
+    }
+
+    this.errorMessage.set('Email ou senha inválidos. Tente novamente.');
+    console.log('Email ou senha inválidos');
   }
 }

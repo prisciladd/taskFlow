@@ -46,6 +46,19 @@
   padding-right: 15px;
 }
 
+.actions-col button {
+  color: inherit;
+}
+
+.flag-btn {
+  min-width: 44px;
+  width: 44px;
+  height: 40px;
+  padding: 0;
+  --mdc-outlined-button-label-text-color: currentColor;
+  --mdc-outlined-button-outline-color: currentColor;
+}
+
 /* Logo + Título */
 .logo {
   width: 40px;
@@ -133,7 +146,9 @@
 }
 
 .flag {
-  width: 32px;
-  height: 32px;
-  cursor: pointer;
+  width: 22px;
+  height: 22px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
 }

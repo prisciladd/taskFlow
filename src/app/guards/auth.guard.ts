@@ -6,15 +6,15 @@ export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.isAutheticated()) {
+  if (authService.hasValidSession()) {
     console.log(`Acesso permitido para a rota: ${state.url}`);
-    
+
     return true;
-  }else{
-    router.navigate(['/login']);
-    console.log(`Acesso negado para a rota: ${state.url}. Redirecionando para /login.`);
-    
-    return false;
+  } else {
+    console.log(
+      `Acesso negado para a rota: ${state.url}. Redirecionando para /login.`,
+    );
+
+    return router.createUrlTree(['/login']);
   }
-  
 };

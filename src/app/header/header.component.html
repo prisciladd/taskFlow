@@ -18,26 +18,33 @@
 
     <!-- Coluna 3: Ações -->
     <div class="actions-col" aria-label="Ações do usuário">
-      <mat-icon
-        aria-hidden="false"
-        aria-label="Notificações"
-        fontIcon="notifications"
-      ></mat-icon>
-      <mat-icon
-        aria-hidden="false"
+      <button
+        mat-icon-button
+        type="button"
+        (click)="logout()"
         aria-label="Sair"
-        fontIcon="logout"
-      ></mat-icon>
-      <img
-        class="flag"
-        src="brasil.png"
-        alt="Bandeira do Brasil"
-        (click)="mudarIdioma('pt-br')" />
-        <img
-        class="flag"
-        src="portugal.png"
-        alt="Bandeira do Brasil"
-        (click)="mudarIdioma('pt-pt')" />
+      >
+        <mat-icon aria-hidden="false" fontIcon="logout"></mat-icon>
+      </button>
+      <button
+        mat-stroked-button
+        class="flag-btn"
+        type="button"
+        (click)="mudarIdioma('pt-br')"
+        aria-label="Mudar para Portugues do Brasil"
+      >
+        <img class="flag" src="brasil.png" alt="Bandeira do Brasil" />
+      </button>
+
+      <button
+        mat-stroked-button
+        class="flag-btn"
+        type="button"
+        (click)="mudarIdioma('pt-pt')"
+        aria-label="Mudar para Portugues de Portugal"
+      >
+        <img class="flag" src="portugal.png" alt="Bandeira de Portugal" />
+      </button>
     </div>
   </div>
 </header>
